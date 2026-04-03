@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Inelco IT Solutions | Plataforma tecnológica integral para
-        empresas</title>
+    <title>Inelco IT Solutions | Plataforma tecnológica integral para empresas</title>
     <!-- Bootstrap 5 + Google Fonts + Font Awesome + AOS + Swiper -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap"
@@ -39,6 +38,7 @@
         .text-primary {
             color: var(--primary) !important;
         }
+
         .btn-primary-custom {
             background-color: var(--primary);
             color: white;
@@ -128,7 +128,22 @@
             font-weight: 800;
             margin-bottom: 1rem;
             text-align: center;
-            color: var(--text-dark);
+            background: linear-gradient(135deg, #1a2a3f 0%, #2c3e50 50%, #1a2a3f 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
         }
 
         .section-subtitle {
@@ -246,6 +261,21 @@
             font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 1.2rem;
+            animation: floatIcon 2s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         .problem-card {
@@ -254,6 +284,7 @@
             padding: 1.5rem;
             border-radius: 16px;
             height: 100%;
+            transition: transform 0.2s;
         }
 
         .step-number {
@@ -274,6 +305,7 @@
             background: var(--gray-light);
             border-radius: 24px;
             padding: 2rem;
+            transition: transform 0.2s;
         }
 
         .cta-section {
@@ -328,21 +360,54 @@
             color: var(--primary);
         }
 
-        .whatsapp-float {
+        /* Botones flotantes animados */
+        .float-btn {
             position: fixed;
             bottom: 30px;
-            right: 30px;
             z-index: 1000;
             background-color: #25D366;
             border-radius: 60px;
-            padding: 12px 18px;
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: center;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 1.5s infinite;
+        }
+
+        .float-btn-wa {
+            right: 30px;
+            background-color: #25D366;
+        }
+
+        .float-btn-ia {
+            right: 110px;
+            background-color: var(--primary);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 25px rgba(0, 152, 240, 0.4);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .float-btn i {
+            font-size: 2rem;
             color: white;
-            font-weight: 600;
         }
 
         .whatsapp-menu {
@@ -372,8 +437,59 @@
             color: #25D366;
         }
 
+        .chat-modal-ia {
+            position: fixed;
+            bottom: 100px;
+            right: 110px;
+            width: 320px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1002;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--gray-border);
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chat-body {
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #f9f9ff;
+        }
+
+        .chat-input-area {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+        }
+
         .swiper-slide {
             height: auto;
+        }
+
+        .branch-item {
+            margin-bottom: 15px;
+        }
+
+        .branch-city {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .branch-phone {
+            font-size: 0.85rem;
+            color: #ccc;
         }
 
         @media (max-width: 768px) {
@@ -387,6 +503,20 @@
 
             section {
                 padding: 50px 0;
+            }
+
+            .float-btn-ia {
+                right: 80px;
+            }
+
+            .float-btn-wa {
+                right: 15px;
+            }
+
+            .chat-modal-ia {
+                right: 15px;
+                width: 90%;
+                bottom: 80px;
             }
         }
     </style>
@@ -416,15 +546,13 @@
     </nav>
 
     <main>
-        <!-- HERO con buscador Inel -->
         <section id="inicio" class="hero-search">
             <div class="container text-center">
-                <h1 data-aos="fade-up">Todo lo que tu empresa<br> necesita
-                    en <span class="highlight">tecnología</span></h1>
-                <p class="lead text-muted mx-auto" style="max-width:700px">Software, infraestructura,
-                    cursos,
-                    asesoría con <br><span class="highlight"><strong>Max</strong></span> (tu
-                    asistente IA) y recursos técnicos.</p>
+                <h1 data-aos="fade-up">Todo lo que tu empresa<br> necesita en <span class="highlight">tecnología</span>
+                </h1>
+                <p class="lead text-muted mx-auto" style="max-width:700px">Software, infraestructura, cursos, asesoría
+                    con <br><span class="highlight"><strong>Max</strong></span> (tu asistente IA) y recursos técnicos.
+                </p>
                 <div class="search-container">
                     <div class="search-input-group">
                         <input type="text" id="globalSearch" class="form-control-lg"
@@ -439,265 +567,169 @@
             </div>
         </section>
 
-        <!-- Problemas comunes -->
-        <section style="background-color: var(--gray-light);">
+        <!-- Problemas comunes en carrusel mejorado -->
+        <section style="background-color: var(--gray-light);" id="problemasSection">
             <div class="container">
-                <h2 class="section-title">¿Tu empresa
-                    enfrenta estos desafíos?</h2>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="problem-card"><i class="fas fa-tasks fa-2x text-primary mb-3"></i>
-                            <h5>Procesos
-                                manuales y lentos</h5>
-                            <p>Automatizamos
-                                tareas administrativas.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="problem-card"><i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
-                            <h5>Falta
-                                de control y visibilidad</h5>
-                            <p>ERP y
-                                dashboards
-                                centralizados.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="problem-card"><i class="fas fa-microchip fa-2x text-primary mb-3"></i>
-                            <h5>Sistemas
-                                obsoletos</h5>
-                            <p>Renovamos hardware y
-                                software.</p>
-                        </div>
-                    </div>
+                <h2 class="section-title">¿Tu empresa enfrenta estos desafíos?</h2>
+                <div class="swiper problemSwiper" style="overflow:hidden; padding: 20px 0 40px;">
+                    <div class="swiper-wrapper" id="problemsWrapper"></div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
                 </div>
             </div>
         </section>
 
-        <!-- SERVICIOS mejorados con más contenido -->
+        <!-- SERVICIOS -->
         <section id="servicios">
             <div class="container">
-                <h2 class="section-title">Soluciones tecnológicas
-                    integrales</h2>
-                <p class="section-subtitle">Desde
-                    desarrollo de software hasta infraestructura física,
-                    hardware y consultoría.</p>
+                <h2 class="section-title">Soluciones tecnológicas integrales</h2>
+                <p class="section-subtitle">Desde desarrollo de software hasta infraestructura física, hardware y
+                    consultoría.</p>
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-4">
                         <div class="card-modern"><i class="fas fa-code service-icon"></i>
-                            <h4>Software
-                                a medida</h4>
-                            <ul class="benefit-list">
-                                <li>Automatización de
-                                    procesos clave</li>
-                                <li>Reducción de
-                                    costos hasta 40%</li>
-                                <li>Integración con
-                                    SAE, ASPEL, SIIGO</li>
-                                <li>Desarrollo de
-                                    ERP/CRM
-                                    personalizado</li>
-                            </ul>
+                            <h4>Software a medida</h4>
+                            <p>Automatización de procesos, reducción de costos hasta 40%, integración con SAE, ASPEL,
+                                SIIGO. ERP/CRM personalizado.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="card-modern"><i class="fas fa-server service-icon"></i>
-                            <h4>Infraestructura
-                                TI</h4>
-                            <ul class="benefit-list">
-                                <li>Redes
-                                    empresariales seguras</li>
-                                <li>Servidores
-                                    físicos y virtuales</li>
-                                <li>Cableado
-                                    estructurado y CCTV</li>
-                                <li>Equipo de
-                                    cómputo y punto de
-                                    venta</li>
-                            </ul>
+                            <h4>Infraestructura TI</h4>
+                            <p>Redes empresariales seguras, servidores físicos y virtuales, cableado estructurado y
+                                CCTV, equipo de cómputo y punto de venta.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="card-modern"><i class="fas fa-cloud-upload-alt service-icon"></i>
-                            <h4>Soluciones
-                                Cloud</h4>
-                            <ul class="benefit-list">
-                                <li>Migración
-                                    AWS/Azure/GCP</li>
-                                <li>Backups y
-                                    recuperación ante
-                                    desastres</li>
-                                <li>Escalabilidad y ahorro
-                                    en
-                                    infraestructura</li>
-                            </ul>
+                            <h4>Soluciones Cloud</h4>
+                            <p>Migración AWS/Azure/GCP, backups y recuperación ante desastres, escalabilidad y ahorro en
+                                infraestructura.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="card-modern"><i class="fas fa-plug service-icon"></i>
-                            <h4>Energía
-                                y regulación</h4>
-                            <ul class="benefit-list">
-                                <li>Pólizas de soporte
-                                    técnico</li>
-                                <li>Reguladores y no-breaks
-                                    empresariales</li>
-                                <li>Protección para
-                                    equipos
-                                    críticos</li>
-                            </ul>
+                            <h4>Energía y regulación</h4>
+                            <p>Pólizas de soporte técnico, reguladores y no-breaks empresariales, protección para
+                                equipos críticos.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="card-modern"><i class="fas fa-network-wired service-icon"></i>
-                            <h4>Redes
-                                y comunicaciones</h4>
-                            <ul class="benefit-list">
-                                <li>Diseño LAN/WAN y
-                                    WiFi empresarial</li>
-                                <li>Firewalls y
-                                    control de acceso</li>
-                                <li>Optimización
-                                    de
-                                    conectividad</li>
-                            </ul>
+                            <h4>Redes y comunicaciones</h4>
+                            <p>Diseño LAN/WAN y WiFi empresarial, firewalls y control de acceso, optimización de
+                                conectividad.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="card-modern"><i class="fas fa-laptop-code service-icon"></i>
-                            <h4>Equipo
-                                de cómputo</h4>
-                            <ul class="benefit-list">
-                                <li>PCs, laptops,
-                                    servidores de alta
-                                    gama</li>
-                                <li>Periféricos y
-                                    accesorios</li>
-                                <li>Mantenimiento y
-                                    garantía
-                                    extendida</li>
-                            </ul>
+                            <h4>Equipo de cómputo</h4>
+                            <p>PCs, laptops, servidores de alta gama, periféricos, mantenimiento y garantía extendida.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ¿Qué hacemos? sección completa -->
+        <!-- ¿Qué hacemos? enriquecido -->
         <section id="quehacemos" style="background-color: var(--gray-light);">
             <div class="container">
-                <h2 class="section-title">¿Qué
-                    hacemos?</h2>
-                <p class="section-subtitle">Brindamos
-                    soluciones, asesorías y soporte con adquisición de
-                    servicios y sistemas.</p>
+                <h2 class="section-title">¿Qué hacemos?</h2>
+                <p class="section-subtitle">Brindamos soluciones, asesorías y soporte con adquisición de servicios y
+                    sistemas.</p>
                 <div class="row g-4">
                     <div class="col-md-4">
                         <div class="card-modern text-center"><i class="fas fa-cogs fa-3x text-primary"></i>
                             <h5 class="mt-3">Implementación</h5>
-                            <p>Instalamos
-                                sistemas que solicites o adquieras con
-                                nosotros.</p>
+                            <p>Instalamos sistemas que solicites o adquieras con nosotros, garantizando integración y
+                                cero fricciones.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card-modern text-center"><i class="fas fa-chalkboard-user fa-3x text-primary"></i>
                             <h5 class="mt-3">Capacitación</h5>
-                            <p>Te
-                                enseñamos a usar tus sistemas al
-                                máximo.</p>
+                            <p>Te enseñamos a usar tus sistemas al máximo con talleres prácticos y certificación de
+                                conocimientos.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card-modern text-center"><i class="fas fa-headset fa-3x text-primary"></i>
                             <h5 class="mt-3">Asesoría</h5>
-                            <p>Te asesoramos
-                                en múltiples
-                                plataformas.</p>
+                            <p>Te asesoramos en múltiples plataformas y tecnologías para elegir la mejor ruta de
+                                transformación digital.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card-modern text-center"><i class="fas fa-life-ring fa-3x text-primary"></i>
                             <h5 class="mt-3">Soporte</h5>
-                            <p>Servicio
-                                inmejorable para que estés
-                                tranquilo.</p>
+                            <p>Servicio inmejorable con atención prioritaria, mesa de ayuda y resolución ágil de
+                                incidentes.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card-modern text-center"><i class="fas fa-chart-simple fa-3x text-primary"></i>
                             <h5 class="mt-3">Consultoría</h5>
-                            <p>Mejoramos la
-                                productividad de tu
-                                empresa.</p>
+                            <p>Mejoramos la productividad de tu empresa con análisis de procesos y KPIs tecnológicos.
+                            </p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card-modern text-center"><i class="fas fa-globe fa-3x text-primary"></i>
-                            <h5 class="mt-3">Desarrollo
-                                web</h5>
-                            <p>Soluciones web para que tu
-                                empresa crezca.</p>
+                            <h5 class="mt-3">Desarrollo web</h5>
+                            <p>Soluciones web modernas, e-commerce y portales empresariales para que tu negocio crezca.
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="card-modern text-center"><i class="fas fa-microchip fa-3x text-primary"></i>
-                            <h4>Hardware
-                                necesario</h4>
-                            <p>Contamos con el hardware
-                                necesario para implementar los sistemas que
-                                necesites. Equipo de punto de venta,
-                                reguladores, redes y comunicaciones, equipo
-                                de cómputo
-                                especializado.</p>
+                            <h4>Hardware necesario</h4>
+                            <p>Contamos con el hardware necesario para implementar los sistemas que necesites. Equipo de
+                                punto de venta, reguladores, redes y comunicaciones, equipo de cómputo especializado.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CURSOS con carrusel + vista calendario -->
+        <!-- CURSOS mejor diseño -->
         <section id="cursos">
             <div class="container">
                 <h2 class="section-title">Cursos y certificaciones</h2>
-                <p class="section-subtitle">Capacitación práctica con
-                    certificado, plazas limitadas</p>
+                <p class="section-subtitle">Capacitación práctica con certificado, plazas limitadas</p>
                 <div class="d-flex justify-content-end mb-3 gap-2"><button class="btn btn-sm btn-outline-custom"
-                        id="viewCarouselBtn"><i class="fas fa-images"></i>
-                        Carrusel</button><button class="btn btn-sm btn-outline-custom" id="viewCalendarBtn"><i
-                            class="fas fa-calendar-alt"></i>
+                        id="viewCarouselBtn"><i class="fas fa-images"></i> Carrusel</button><button
+                        class="btn btn-sm btn-outline-custom" id="viewCalendarBtn"><i class="fas fa-calendar-alt"></i>
                         Calendario</button></div>
-                <!-- Swiper Carrusel -->
-                <div class="swiper mySwiper" id="courseSwiper" style="overflow:hidden">
+                <div class="swiper mySwiper" id="courseSwiper" style="overflow:visible; padding: 20px 0 50px;">
                     <div class="swiper-wrapper" id="coursesWrapper"></div>
                     <div class="swiper-pagination"></div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
                 </div>
-                <!-- Vista calendario -->
                 <div id="calendarView" class="calendar-view"></div>
             </div>
         </section>
 
-        <!-- Centro de conocimiento con Inel (IA) -->
+        <!-- Centro de conocimiento con MAX (simulación IA) -->
         <section id="conocimiento" style="background-color: var(--gray-light);">
             <div class="container">
                 <div class="text-center">
-                    <h2 class="section-title">Centro de conocimiento con
-                        <span style="color:var(--primary)">Max</span>
+                    <h2 class="section-title">Centro de conocimiento con <span style="color:var(--primary)">Max</span>
                     </h2>
-                    <p class="section-subtitle">Tu asistente inteligente
-                        para resolver dudas tecnológicas al
-                        instante.</p>
+                    <p class="section-subtitle">Tu asistente inteligente para resolver dudas tecnológicas al instante.
+                        <span class="badge bg-primary">Beta Gratuita</span></p>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="card-modern p-4">
                             <div class="input-group mb-3"><input type="text" id="iaSearchInput"
                                     class="form-control form-control-lg"
-                                    placeholder="Ej: ¿Cómo actualizar servidores?"><button
+                                    placeholder='Ej: "cómo mejorar el ciclo administrativo de mi negocio"'><button
                                     class="btn btn-primary-custom" id="iaSearchBtn">Consultar Max</button></div>
                             <div id="iaResults" class="mt-3"></div>
                         </div>
@@ -706,147 +738,131 @@
             </div>
         </section>
 
-        <!-- Descargas -->
+        <!-- Centro de Descargas -->
         <section id="descargas">
             <div class="container">
                 <h2 class="section-title">Centro de Descargas</h2>
+                <p class="section-subtitle">Accede a recursos gratuitos, guías y software de prueba para optimizar tu
+                    negocio.</p>
                 <div class="row g-4">
                     <div class="col-md-4">
                         <div class="card-modern text-center"><i class="fas fa-file-pdf fa-3x text-primary"></i>
-                            <h5>Guía
-                                Transformación Digital</h5><button class="btn btn-primary-custom btn-sm mt-3"
-                                onclick="alert('Descarga simulada')">Descargar</button>
+                            <h5>Guía Transformación Digital</h5><button class="btn btn-primary-custom btn-sm mt-3"
+                                onclick="alert('🔜 Próximamente: Plataforma de descargas Inelco. Recibirás un enlace por correo.')">Descargar</button>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card-modern text-center"><i class="fas fa-database fa-3x text-primary"></i>
-                            <h5>Software
-                                Monitoreo TI</h5><button class="btn btn-primary-custom btn-sm mt-3"
-                                onclick="alert('Descarga simulada')">Descargar</button>
+                            <h5>Software Monitoreo TI</h5><button class="btn btn-primary-custom btn-sm mt-3"
+                                onclick="alert('🔜 Acceso a prueba gratuita disponible pronto.')">Descargar</button>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card-modern text-center"><i class="fas fa-shield fa-3x text-primary"></i>
-                            <h5>Kit
-                                Seguridad Informática</h5><button class="btn btn-primary-custom btn-sm mt-3"
-                                onclick="alert('Descargar ZIP')">Descargar</button>
+                            <h5>Kit Seguridad Informática</h5><button class="btn btn-primary-custom btn-sm mt-3"
+                                onclick="alert('📥 El kit incluye checklist y políticas de seguridad.')">Descargar</button>
                         </div>
                     </div>
                 </div>
+                <div class="alert alert-info mt-4">✨ El Centro de Descargas de Inelco te ofrece herramientas exclusivas,
+                    manuales técnicos y trials de software. ¡Regístrate para recibir novedades!</div>
             </div>
         </section>
 
-        <!-- Testimonios -->
-        <section style="background-color: var(--gray-light);">
+        <!-- Testimonios carrusel con localStorage -->
+        <section style="background-color: var(--gray-light);" id="testimoniosSection">
             <div class="container">
-                <h2 class="section-title">Clientes
-                    satisfechos</h2>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="testimonial-card"><i class="fas fa-quote-left fa-2x text-primary opacity-25"></i>
-                            <p class="mt-3">"Inelco transformó nuestra infraestructura."</p>
-                            <h6 class="text-primary">— Laura
-                                Méndez</h6>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="testimonial-card"><i class="fas fa-quote-left fa-2x text-primary opacity-25"></i>
-                            <p class="mt-3">"Los cursos de ciberseguridad fueron increíbles."</p>
-                            <h6 class="text-primary">— Carlos
-                                Ramírez</h6>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="testimonial-card"><i class="fas fa-quote-left fa-2x text-primary opacity-25"></i>
-                            <p class="mt-3">"Software a medida redujo costos 40%."</p>
-                            <h6 class="text-primary">— Ana
-                                Herrera</h6>
-                        </div>
-                    </div>
+                <h2 class="section-title">Clientes satisfechos</h2>
+                <div class="swiper testimonialSwiper" style="overflow:hidden; padding: 20px 0 50px;">
+                    <div class="swiper-wrapper" id="testimonialsWrapper"></div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
                 </div>
+                <div class="text-center mt-4"><button class="btn btn-outline-custom" data-bs-toggle="modal"
+                        data-bs-target="#testimonialModal"><i class="fas fa-pen"></i> Deja tu comentario</button></div>
             </div>
         </section>
 
-        <!-- CTA con modal funcional -->
+        <!-- CTA con tooltip de intuición -->
         <section id="contacto" class="container">
             <div class="cta-section text-center" data-aos="zoom-in">
-                <h3 class="text-white">¿Listo para impulsar tu empresa con
-                    tecnología?</h3>
-                <p class="mb-4" style="color:#cce5ff">Agenda asesoría gratuita y
-                    diagnóstico sin compromiso.</p><button class="btn btn-primary-custom"
-                    style="background:white;color:var(--primary)" data-bs-toggle="modal"
-                    data-bs-target="#leadModal">Solicitar
-                    asesoría</button>
+                <h3 class="text-white">¿Listo para impulsar tu empresa con tecnología?</h3>
+                <p class="mb-4" style="color:#cce5ff">Agenda asesoría gratuita y diagnóstico sin compromiso.</p><button
+                    class="btn btn-primary-custom" style="background:white;color:var(--primary)" data-bs-toggle="modal"
+                    data-bs-target="#leadModal" id="ctaButton">Solicitar asesoría <i
+                        class="fas fa-arrow-right"></i></button><small class="d-block mt-2 text-white-50">✨ Haz clic y
+                    completa el formulario, un experto te contactará</small>
             </div>
         </section>
 
-        <!-- FOOTER MEJORADO con resumen Inelco + sucursales integradas -->
         <footer class="footer-modern">
             <div class="container">
                 <div class="row g-4">
-                    <div class="col-md-5">
-                        <img src="https://inelco.mx/images/logo-positivo.png"
+                    <div class="col-md-5"><img src="https://inelco.mx/images/logo-positivo.png"
                             style="height:45px; filter:brightness(0) invert(1);">
-                        <p class="mt-3 small"><strong>Inelco IT
-                                Solutions</strong> provee soluciones
-                            integrales a necesidades de información,
-                            automatizando procesos de micro, pequeñas y
-                            medianas empresas. Ofrecemos productos de
-                            calidad orientados a apoyar procesos y
-                            aplicaciones de negocio, con asesoría,
-                            implementación, capacitación, mantenimiento,
-                            soporte y actualización.</p>
+                        <p class="mt-3 small"><strong>Inelco IT Solutions</strong> provee soluciones integrales a
+                            necesidades de información, automatizando procesos de micro, pequeñas y medianas empresas.
+                        </p>
                     </div>
                     <div class="col-md-4">
-                        <h5>Sucursales y contacto</h5>
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-map-marker-alt me-2 text-primary"></i>
-                                <strong>CDMX:</strong> Av. Insurgentes 950,
-                                Roma - Tel: (55) 1234 5678
-                            </li>
-                            <li><i class="fas fa-map-marker-alt me-2 text-primary"></i>
-                                <strong>Monterrey:</strong> Av. Gómez Morín
-                                245, San Pedro - Tel: (81) 2345 6789
-                            </li>
-                            <li><i class="fas fa-map-marker-alt me-2 text-primary"></i>
-                                <strong>San Luis Potosí:</strong> Blvd. Río
-                                Santiago 102 - Tel: (444) 567 8901
-                            </li>
-                            <li><i class="fas fa-map-marker-alt me-2 text-primary"></i>
-                                <strong>Baja California:</strong> Paseo
-                                Héroes 321, Tijuana - Tel: (664) 789
-                                0123
-                            </li>
-                            
-                        </ul>
+                        <h5>Sucursales</h5>
+                        <div class="branch-item">
+                            <div class="branch-city">CDMX</div>
+                            <div class="branch-phone"><i class="fas fa-phone-alt"></i> (55) 1234 5678</div>
+                        </div>
+                        <div class="branch-item">
+                            <div class="branch-city">Monterrey</div>
+                            <div class="branch-phone"><i class="fas fa-phone-alt"></i> (81) 2345 6789</div>
+                        </div>
+                        <div class="branch-item">
+                            <div class="branch-city">San Luis Potosí</div>
+                            <div class="branch-phone"><i class="fas fa-phone-alt"></i> (444) 567 8901</div>
+                        </div>
+                        <div class="branch-item">
+                            <div class="branch-city">Baja California</div>
+                            <div class="branch-phone"><i class="fas fa-phone-alt"></i> (664) 789 0123</div>
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <h5>Síguenos</h5>
                         <div class="d-flex gap-3"><a href="#"><i class="fab fa-linkedin fa-2x"></i></a><a href="#"><i
                                     class="fab fa-twitter fa-2x"></i></a><a href="#"><i
                                     class="fab fa-facebook fa-2x"></i></a><a href="#"><i
-                                    class="fab fa-instagram fa-2x"></i></a>
-                        </div>
+                                    class="fab fa-instagram fa-2x"></i></a></div>
                         <h5 class="mt-4">Horario</h5>
-                        <p>Lun-Vie 8am-8pm, Sáb
-                            9am-2pm</p>
+                        <p>Lun-Vie 8am-8pm, Sáb 9am-2pm</p>
                         <ul class="list-unstyled">
-                            <li><i class="fas fa-envelope me-2"></i>
-                                contacto@inelco.mx</li>
-                            <li><i class="fab fa-whatsapp me-2"></i> +52 55
-                                8765 4321</li>
+                            <li><i class="fas fa-envelope me-2"></i> contacto@inelco.mx</li>
+                            <li><i class="fab fa-whatsapp me-2"></i> +52 55 8765 4321</li>
                         </ul>
                     </div>
                 </div>
                 <hr class="mt-4">
-                <div class="text-center small">© 2025
-                    Inelco IT Solutions — Innovación tecnológica para tu
-                    negocio</div>
+                <div class="text-center small">© 2025 Inelco IT Solutions — Innovación tecnológica para tu negocio</div>
             </div>
         </footer>
     </main>
 
-    <!-- Modal Lead -->
+    <div class="float-btn float-btn-wa" id="whatsappFloatBtn"><i class="fab fa-whatsapp"></i>
+        <div class="whatsapp-menu" id="whatsappMenu"><a href="#" data-msg="Necesito ayuda de un asesor técnico">🧑‍💻
+                Asesor técnico</a><a href="#" data-msg="Quiero cotizar equipos de cómputo">📦 Cotizar equipos</a><a
+                href="#" data-msg="Quiero cotizar sistemas administrativos">💻 Cotizar sistemas</a><a href="#"
+                data-msg="Cotización de seguridad en IT">🔒 Cotizar ciberseguridad</a></div>
+    </div>
+    <div class="float-btn float-btn-ia" id="iaChatBtn"><i class="fas fa-robot"></i></div>
+    <div id="iaChatModal" class="chat-modal-ia">
+        <div class="chat-header">🤖 MAX - Asistente IA <span id="closeChat" style="cursor:pointer;">✖️</span></div>
+        <div class="chat-body" id="chatMessages">
+            <div class="text-muted small">¡Hola! Soy MAX, asistente de Inelco. Pregúntame sobre tecnología, software o
+                cursos.</div>
+        </div>
+        <div class="chat-input-area"><input type="text" id="chatInput" class="form-control form-control-sm"
+                placeholder="Escribe tu pregunta..."><button id="sendChatMsg"
+                class="btn btn-sm btn-primary-custom ms-2">Enviar</button></div>
+    </div>
+
+    <!-- Modales -->
     <div class="modal fade" id="leadModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -857,26 +873,28 @@
                         placeholder="Nombre completo"><input type="email" id="leadEmail" class="form-control mb-2"
                         placeholder="Correo electrónico"><input type="tel" id="leadTelefono" class="form-control mb-2"
                         placeholder="Teléfono"><select id="leadInteres" class="form-select mb-2">
-                        <option>Software a
-                            medida</option>
-                        <option>Infraestructura
-                            TI</option>
+                        <option>Software a medida</option>
+                        <option>Infraestructura TI</option>
                         <option>Cursos</option>
                         <option>Ciberseguridad</option>
-                    </select><button class="btn btn-primary-custom w-100" id="sendLeadBtn">Enviar
-                        solicitud</button></div>
+                    </select><button class="btn btn-primary-custom w-100" id="sendLeadBtn">Enviar solicitud</button>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- WhatsApp flotante -->
-    <div class="whatsapp-float" id="whatsappFloatBtn"><i class="fab fa-whatsapp fa-2x"></i> <span>Inel</span>
-        <div class="whatsapp-menu" id="whatsappMenu"><a href="#" data-msg="Necesito ayuda de un asesor técnico">🧑‍💻
-                Asesor
-                técnico</a><a href="#" data-msg="Quiero cotizar equipos de cómputo">📦 Cotizar
-                equipos</a><a href="#" data-msg="Quiero cotizar sistemas administrativos">💻
-                Cotizar sistemas</a><a href="#" data-msg="Cotización de seguridad en IT">🔒 Cotizar
-                ciberseguridad</a></div>
+    <div class="modal fade" id="testimonialModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Deja tu testimonio</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body"><input type="text" id="testName" class="form-control mb-2"
+                        placeholder="Nombre"><input type="text" id="testPosition" class="form-control mb-2"
+                        placeholder="Puesto / Empresa"><textarea id="testComment" class="form-control mb-2" rows="3"
+                        placeholder="Tu comentario..."></textarea><button id="saveTestimonial"
+                        class="btn btn-primary-custom w-100">Guardar</button></div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -884,82 +902,70 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         AOS.init({ duration: 700, once: true });
-
-        // Base conocimiento Inel
+        // knowledge base extendida
         const knowledgeBase = [
-            { keywords: ["aumentar ventas", "sistemas administrativos"], answer: "📈 Inel: Implementa un ERP/CRM y automatiza seguimiento. Nuestros clientes aumentan ventas hasta 40%. ¿Te interesa una demo?" },
-            { keywords: ["cámaras", "auditorias", "seguridad"], answer: "🔒 Inel: CCTV IP con análisis de video y auditorías. Cotiza instalación profesional." },
-            { keywords: ["actualizar servidores", "equipos"], answer: "🖥️ Inel: Diagnóstico y migración a servidores de última generación o cloud híbrido. Rendimiento +50%." },
-            { keywords: ["cotización seguridad", "seguridad it"], answer: "🛡️ Inel: Incluye firewall, antivirus, backup y cumplimiento LFPDPPP. Precios personalizados." },
-            { keywords: ["cloud", "respaldo"], answer: "☁️ Inel: Backup automatizado en AWS/Azure, recuperación ante desastres. ¡Pide tu presupuesto!" },
-            { keywords: ["servidor", "nube"], answer: "Inel: Servidores físicos o cloud (AWS/Azure). Configuración y mantenimiento incluidos." },
-            { keywords: ["curso", "capacitación"], answer: "Inel: Cursos con certificado, plazas limitadas. Revisa nuestro catálogo." }
+            { keywords: ["aumentar ventas", "sistemas administrativos", "mejorar ciclo administrativo"], answer: "📈 MAX: Implementa un ERP/CRM y automatiza seguimiento. Nuestros clientes aumentan ventas hasta 40%. Inelco IT Solutions tiene las mejores soluciones a la medida para optimizar tu ciclo administrativo, integrando facturación, inventarios y reporting en tiempo real." },
+            { keywords: ["cámaras", "auditorias", "seguridad"], answer: "🔒 MAX: CCTV IP con análisis de video y auditorías. Cotiza instalación profesional con nosotros." },
+            { keywords: ["actualizar servidores", "equipos"], answer: "🖥️ MAX: Diagnóstico y migración a servidores de última generación o cloud híbrido. Rendimiento +50%." },
+            { keywords: ["cotización seguridad", "seguridad it"], answer: "🛡️ MAX: Incluye firewall, antivirus, backup y cumplimiento LFPDPPP. Precios personalizados." },
+            { keywords: ["cloud", "respaldo"], answer: "☁️ MAX: Backup automatizado en AWS/Azure, recuperación ante desastres. ¡Pide tu presupuesto!" }
         ];
-
-        function getInelResponse(query) {
+        function getInelResponse(query, isChat = false) {
             let q = query.toLowerCase();
             let found = knowledgeBase.find(k => k.keywords.some(kw => q.includes(kw)));
-            if (found) return found.answer;
-            return "🤖 Inel: No encontré coincidencia exacta, pero un asesor puede ayudarte. ¿Agendas asesoría gratuita?";
+            let answer = found ? found.answer : "🤖 MAX: No encontré coincidencia exacta, pero un asesor humano puede ayudarte. ¿Agendas asesoría gratuita? Contamos con soluciones personalizadas para cada necesidad tecnológica.";
+            if (!isChat) answer += `<br><small class="text-muted">🕒 Respondido a las ${new Date().toLocaleTimeString()}</small>`;
+            return answer;
         }
-
-        document.getElementById('sendSearchBtn')?.addEventListener('click', () => {
-            let q = document.getElementById('globalSearch').value;
-            if (!q) return;
-            let answer = getInelResponse(q);
-            document.getElementById('searchAnswerArea').innerHTML = `<div class="ia-response-card"><i class="fas fa-robot me-2 text-primary"></i><strong>Inel responde:</strong><br>${answer}</div>`;
-        });
-        // Voz
-        if ('webkitSpeechRecognition' in window) {
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = 'es-MX';
-            document.getElementById('voiceSearchBtn').onclick = () => { recognition.start(); };
-            recognition.onresult = (e) => { document.getElementById('globalSearch').value = e.results[0][0].transcript; document.getElementById('sendSearchBtn').click(); };
-        }
-
-        // Chips dinámicos
+        // Buscador hero
+        document.getElementById('sendSearchBtn')?.addEventListener('click', () => { let q = document.getElementById('globalSearch').value; if (q) document.getElementById('searchAnswerArea').innerHTML = `<div class="ia-response-card"><i class="fas fa-robot me-2 text-primary"></i><strong>MAX responde:</strong><br>${getInelResponse(q)}</div>`; });
+        if ('webkitSpeechRecognition' in window) { const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); recognition.lang = 'es-MX'; document.getElementById('voiceSearchBtn').onclick = () => recognition.start(); recognition.onresult = (e) => { document.getElementById('globalSearch').value = e.results[0][0].transcript; document.getElementById('sendSearchBtn').click(); }; }
         const chips = [{ label: "☁️ Cloud y respaldo", query: "cloud y respaldo" }, { label: "📈 Aumentar ventas", query: "cómo aumentar mis ventas" }, { label: "🎥 Cámaras y auditorías", query: "instalar cámaras" }, { label: "🖥️ Actualizar servidores", query: "actualizar servidores" }, { label: "🔐 Cotizar seguridad IT", query: "cotización de seguridad" }];
-        const chipsContainer = document.getElementById('chipsContainer');
-        chips.forEach(c => { let btn = document.createElement('button'); btn.className = 'chip-btn'; btn.innerHTML = c.label; btn.onclick = () => { document.getElementById('globalSearch').value = c.query; document.getElementById('sendSearchBtn').click(); }; chipsContainer.appendChild(btn); });
+        chips.forEach(c => { let btn = document.createElement('button'); btn.className = 'chip-btn'; btn.innerHTML = c.label; btn.onclick = () => { document.getElementById('globalSearch').value = c.query; document.getElementById('sendSearchBtn').click(); }; document.getElementById('chipsContainer').appendChild(btn); });
 
-        // Cursos data con nuevos temas
+        // Cursos data enriquecida
         const courses = [
-            { title: "Windows 11 Update Empresarial", desc: "Actualización y migración segura", date: "10 Jun 2025", slots: 8, daysLeft: 7, price: "$1,900", duration: "4h", cert: true },
-            { title: "Sistemas SIIGO y ASPEL", desc: "Gestión contable y administrativa", date: "15 Jun 2025", slots: 5, daysLeft: 12, price: "$2,500", duration: "8h", cert: true },
-            { title: "Sistema SAE", desc: "Facturación y control de inventarios", date: "20 Jun 2025", slots: 3, daysLeft: 17, price: "$2,200", duration: "6h", cert: true },
-            { title: "SAT Básico", desc: "Facturación electrónica y obligaciones", date: "25 May 2025", slots: 2, daysLeft: 2, price: "$1,500", duration: "5h", cert: true },
-            { title: "Declaración Fiscal Anual", desc: "Personas morales y físicas", date: "5 Jun 2025", slots: 10, daysLeft: 2, price: "$2,800", duration: "8h", cert: true },
-            { title: "Curso de Nómina", desc: "Cálculo, IMSS, INFONAVIT", date: "12 Jun 2025", slots: 4, daysLeft: 9, price: "$2,000", duration: "6h", cert: true },
-            { title: "Antivirus y Ciberseguridad", desc: "Protección corporativa", date: "18 Jun 2025", slots: 6, daysLeft: 15, price: "$1,800", duration: "4h", cert: true },
-            { title: "Marketing Digital para PyMEs", desc: "SEO, redes y ventas online", date: "22 Jun 2025", slots: 12, daysLeft: 19, price: "$2,300", duration: "7h", cert: true }
+            { title: "Windows 11 Empresarial", desc: "Actualización y migración segura. Incluye prácticas de implementación.", date: "10 Jun 2025 - 10:00 AM", slots: 8, price: "$1,900", duration: "4h", cert: true, modalidad: "Web", promo: "20% off" },
+            { title: "Sistemas SIIGO y ASPEL", desc: "Gestión contable y administrativa avanzada.", date: "15 Jun 2025 - 3:00 PM", slots: 5, price: "$2,500", duration: "8h", cert: true, modalidad: "Presencial", promo: "" },
+            { title: "Sistema SAE", desc: "Facturación y control de inventarios nivel experto.", date: "20 Jun 2025 - 9:00 AM", slots: 3, price: "$2,200", duration: "6h", cert: true, modalidad: "Web", promo: "Incluye manual" }
         ];
-        function renderCourseCard(c) {
-            return `<div class="swiper-slide"><div class="card-modern position-relative" style="height:100%"><span class="course-badge">${c.daysLeft <= 7 ? `🚀 Faltan ${c.daysLeft} días` : `📅 ${c.daysLeft} días`}</span><i class="fas fa-graduation-cap fa-2x text-primary mb-2"></i><h5>${c.title}</h5><p class="small text-muted">${c.desc}</p><p><i class="far fa-calendar-alt"></i> ${c.date} | ⏱️ ${c.duration}<br><i class="fas fa-users"></i> Cupo: ${c.slots} lugares | 🎓 Certificado incluido</p><p class="fw-bold text-primary">${c.price}</p><button class="btn btn-primary-custom btn-sm w-100" data-bs-toggle="modal" data-bs-target="#leadModal" onclick="document.getElementById('leadInteres').value='${c.title}'">Inscribirme</button></div></div>`;
-        }
-        const wrapper = document.getElementById('coursesWrapper');
-        courses.forEach(c => { wrapper.innerHTML += renderCourseCard(c); });
-        let swiper = new Swiper('.mySwiper', { slidesPerView: 1, spaceBetween: 20, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }, pagination: { el: '.swiper-pagination', clickable: true }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } });
-        function renderCalendar() {
-            let html = `<h5 class="mb-3">📅 Próximas fechas</h5>`;
-            courses.sort((a, b) => new Date(a.date) - new Date(b.date)).forEach(c => { html += `<div class="calendar-day"><strong>${c.title}</strong><br>📆 ${c.date} | ⌛ ${c.duration} | 👥 ${c.slots} lugares | 🎓 Certificado<br><span class="badge bg-primary">${c.price}</span></div>`; });
-            document.getElementById('calendarView').innerHTML = html;
-        }
+        function renderCourseCard(c) { return `<div class="swiper-slide"><div class="card-modern position-relative" style="height:100%">${c.promo ? `<span class="course-badge" style="background:gold;color:black;">🔥 ${c.promo}</span>` : `<span class="course-badge">📢 Cupo limitado</span>`}<i class="fas fa-graduation-cap fa-2x text-primary mb-2"></i><h5>${c.title}</h5><p class="small text-muted">${c.desc}</p><p><i class="far fa-calendar-alt"></i> ${c.date}<br><i class="fas fa-clock"></i> ${c.duration}<br><i class="fas fa-map-marker-alt"></i> ${c.modalidad}<br><i class="fas fa-users"></i> Cupo: ${c.slots}</p><p class="fw-bold text-primary">${c.price}</p><button class="btn btn-primary-custom btn-sm w-100" data-bs-toggle="modal" data-bs-target="#leadModal" onclick="document.getElementById('leadInteres').value='${c.title}'">Inscribirme</button></div></div>`; }
+        const wrapper = document.getElementById('coursesWrapper'); courses.forEach(c => wrapper.innerHTML += renderCourseCard(c));
+        new Swiper('.mySwiper', { slidesPerView: 1, spaceBetween: 25, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }, pagination: { el: '.swiper-pagination', clickable: true }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } });
+        function renderCalendar() { let html = '<h5>📅 Próximas fechas</h5>'; courses.slice().sort((a, b) => new Date(a.date) - new Date(b.date)).forEach(c => { html += `<div class="calendar-day"><strong>${c.title}</strong><br>📆 ${c.date} | ⌛ ${c.duration} | 👥 ${c.slots} lugares | 🎓 Certificado<br>${c.modalidad}<br><span class="badge bg-primary">${c.price}</span></div>`; }); document.getElementById('calendarView').innerHTML = html; }
         document.getElementById('viewCarouselBtn').onclick = () => { document.getElementById('courseSwiper').style.display = 'block'; document.getElementById('calendarView').style.display = 'none'; };
         document.getElementById('viewCalendarBtn').onclick = () => { document.getElementById('courseSwiper').style.display = 'none'; renderCalendar(); document.getElementById('calendarView').style.display = 'block'; };
         document.getElementById('viewCarouselBtn').click();
 
-        // IA Inel sección conocimiento
-        document.getElementById('iaSearchBtn').onclick = () => {
-            let q = document.getElementById('iaSearchInput').value;
-            let res = getInelResponse(q);
-            document.getElementById('iaResults').innerHTML = `<div class="ia-response-card"><i class="fas fa-robot me-2 text-primary"></i><strong>Inel:</strong> ${res}</div>`;
-        };
+        // IA MAX central
+        document.getElementById('iaSearchBtn').onclick = () => { let q = document.getElementById('iaSearchInput').value; document.getElementById('iaResults').innerHTML = `<div class="ia-response-card"><i class="fas fa-robot me-2 text-primary"></i><strong>MAX:</strong> ${getInelResponse(q)}</div>`; };
         document.getElementById('sendLeadBtn').onclick = () => { alert("✅ Gracias, un asesor se pondrá en contacto en 24h."); bootstrap.Modal.getInstance(document.getElementById('leadModal')).hide(); };
-        // WhatsApp flotante
+        // Problemas carrusel enriquecido
+        const problems = [{ icon: "fas fa-tasks", title: "Procesos manuales y lentos", desc: "Automatizamos tareas administrativas con flujos digitales." }, { icon: "fas fa-chart-line", title: "Falta de control y visibilidad", desc: "ERP y dashboards centralizados para decisiones estratégicas." }, { icon: "fas fa-microchip", title: "Sistemas obsoletos", desc: "Renovamos hardware y software con tecnología de punta." }, { icon: "fas fa-shield-alt", title: "Ciberseguridad vulnerable", desc: "Protege tu información con firewalls y políticas avanzadas." }, { icon: "fas fa-database", title: "Pérdida de datos", desc: "Backup automático y recuperación ante desastres." }];
+        const probWrapper = document.getElementById('problemsWrapper'); problems.forEach(p => { probWrapper.innerHTML += `<div class="swiper-slide"><div class="problem-card"><i class="${p.icon} fa-2x text-primary mb-3"></i><h5>${p.title}</h5><p>${p.desc}</p></div></div>`; });
+        new Swiper('.problemSwiper', { slidesPerView: 1, spaceBetween: 20, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, pagination: { el: '.swiper-pagination', clickable: true } });
+
+        // Testimonios localStorage + carrusel
+        let testimonials = JSON.parse(localStorage.getItem('inelcoTestimonials')) || [
+            { name: "Laura Méndez", position: "Directora de Operaciones", comment: "Inelco transformó nuestra infraestructura.", date: "15/02/2025", icon: "fas fa-user-tie" },
+            { name: "Carlos Ramírez", position: "IT Manager", comment: "Los cursos de ciberseguridad fueron increíbles.", date: "10/01/2025", icon: "fas fa-user" },
+            { name: "Ana Herrera", position: "CEO", comment: "Software a medida redujo costos 40%.", date: "05/03/2025", icon: "fas fa-building" }
+        ];
+        function renderTestimonials() { let wrap = document.getElementById('testimonialsWrapper'); wrap.innerHTML = ''; testimonials.forEach(t => { wrap.innerHTML += `<div class="swiper-slide"><div class="testimonial-card"><i class="${t.icon} fa-2x text-primary mb-2"></i><i class="fas fa-quote-left fa-2x text-primary opacity-25"></i><p class="mt-2">"${t.comment}"</p><h6 class="text-primary">${t.name}</h6><small>${t.position}</small><div class="text-muted small mt-2">📅 ${t.date}</div></div></div>`; }); if (window.testimonialSwiper) window.testimonialSwiper.update(); }
+        renderTestimonials();
+        window.testimonialSwiper = new Swiper('.testimonialSwiper', { slidesPerView: 1, spaceBetween: 25, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, pagination: { el: '.swiper-pagination', clickable: true } });
+        document.getElementById('saveTestimonial').onclick = () => { let name = document.getElementById('testName').value, pos = document.getElementById('testPosition').value, comm = document.getElementById('testComment').value; if (name && comm) { let newT = { name, position: pos || "Cliente", comment: comm, date: new Date().toLocaleDateString(), icon: "fas fa-user-check" }; testimonials.unshift(newT); localStorage.setItem('inelcoTestimonials', JSON.stringify(testimonials)); renderTestimonials(); bootstrap.Modal.getInstance(document.getElementById('testimonialModal')).hide(); alert("¡Gracias! Tu comentario ha sido agregado."); } };
+
+        // WhatsApp e IA flotante
         const waFloat = document.getElementById('whatsappFloatBtn'), waMenu = document.getElementById('whatsappMenu');
         waFloat.addEventListener('click', (e) => { e.stopPropagation(); waMenu.style.display = waMenu.style.display === 'flex' ? 'none' : 'flex'; });
         document.addEventListener('click', () => { waMenu.style.display = 'none'; });
         document.querySelectorAll('.whatsapp-menu a').forEach(a => { a.addEventListener('click', (e) => { e.preventDefault(); let msg = a.getAttribute('data-msg'); window.open(`https://wa.me/525587654321?text=${encodeURIComponent(msg + " - Inelco, necesito información")}`, '_blank'); waMenu.style.display = 'none'; }); });
+        // Simulación chat IA MAX
+        const iaChatBtn = document.getElementById('iaChatBtn'), chatModal = document.getElementById('iaChatModal'), closeChat = document.getElementById('closeChat');
+        iaChatBtn.addEventListener('click', () => { chatModal.style.display = chatModal.style.display === 'flex' ? 'none' : 'flex'; });
+        closeChat.addEventListener('click', () => { chatModal.style.display = 'none'; });
+        document.getElementById('sendChatMsg').onclick = () => { let input = document.getElementById('chatInput'); let msg = input.value; if (msg) { let chatBody = document.getElementById('chatMessages'); chatBody.innerHTML += `<div class="mt-2"><strong>Tú:</strong> ${msg}</div><div class="mt-1"><strong>MAX:</strong> ${getInelResponse(msg, true)}</div>`; input.value = ''; chatBody.scrollTop = chatBody.scrollHeight; } };
     </script>
 </body>
 
