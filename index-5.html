@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Inelco IT Solutions | Plataforma tecnológica integral para empresas</title>
+    <!-- Bootstrap 5 + Google Fonts + Font Awesome + AOS + Leaflet (mapas) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background-color: #ffffff; color: #1a2a3f; overflow-x: hidden; }
+        :root { --primary: #0098F0; --primary-dark: #0077cc; --gray-light: #f8f9fb; --gray-border: #eef2f6; --text-dark: #1a2a3f; --text-muted: #5a6e85; }
+        .btn-primary-custom { background-color: var(--primary); color: white; border: none; padding: 12px 32px; border-radius: 50px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,152,240,0.15); }
+        .btn-primary-custom:hover { background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,152,240,0.25); }
+        .btn-outline-custom { background-color: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 10px 28px; border-radius: 50px; font-weight: 600; transition: all 0.3s ease; }
+        .btn-outline-custom:hover { background-color: var(--primary); color: white; transform: translateY(-2px); }
+        .navbar { background-color: white !important; box-shadow: 0 2px 20px rgba(0,0,0,0.03); padding: 1rem 0; }
+        .navbar-brand img { height: 45px; }
+        .nav-link { color: var(--text-dark) !important; font-weight: 600; margin: 0 0.5rem; transition: color 0.3s; }
+        .nav-link:hover { color: var(--primary) !important; }
+        section { padding: 80px 0; }
+        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; text-align: center; color: var(--text-dark); }
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero-search { background: linear-gradient(135deg, #ffffff 0%, var(--gray-light) 100%); padding: 100px 0 70px; margin-top: 70px; }
+        .hero-search h1 { font-size: 3.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
+        .hero-search .highlight { color: var(--primary); }
+        /* Estilo buscador tipo ChatGPT */
+        .search-container { background: white; border-radius: 60px; border: 2px solid var(--gray-border); box-shadow: 0 8px 25px rgba(0,0,0,0.05); transition: all 0.2s; overflow: hidden; }
+        .search-container:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,152,240,0.1); }
+        .search-input-group { display: flex; align-items: center; background: white; padding: 5px 10px; }
+        .search-input-group input { flex: 1; border: none; padding: 18px 20px; font-size: 1rem; outline: none; background: transparent; }
+        .search-actions { display: flex; gap: 12px; padding-right: 15px; }
+        .search-actions button { background: none; border: none; color: var(--primary); font-size: 1.3rem; transition: 0.2s; cursor: pointer; }
+        .search-actions button:hover { color: var(--primary-dark); transform: scale(1.05); }
+        .chip-btn { background: white; border: 1px solid var(--gray-border); border-radius: 50px; padding: 10px 24px; font-weight: 600; color: var(--text-dark); transition: all 0.2s; font-size: 0.9rem; margin: 5px; cursor: pointer; }
+        .chip-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); }
+        .ia-response-card { background: var(--gray-light); border-radius: 24px; padding: 20px; margin-top: 20px; border-left: 5px solid var(--primary); }
+        .timeline { position: relative; max-width: 1200px; margin: 0 auto; }
+        .timeline::after { content: ''; position: absolute; width: 4px; background: var(--primary); top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+        .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
+        .timeline-item::after { content: ''; position: absolute; width: 20px; height: 20px; right: -10px; background: white; border: 4px solid var(--primary); top: 15px; border-radius: 50%; z-index: 1; }
+        .left { left: 0; } .right { left: 50%; }
+        .right::after { left: -10px; }
+        .timeline-content { padding: 20px; background: white; border-radius: 16px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        @media (max-width: 768px) { .timeline::after { left: 31px; } .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; } .timeline-item::after { left: 15px; } .right { left: 0%; } .right::after { left: 15px; } }
+        .map-container { height: 400px; border-radius: 24px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 1000; background-color: #25D366; border-radius: 60px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); cursor: pointer; transition: 0.2s; color: white; font-weight: 600; }
+        .whatsapp-float:hover { transform: scale(1.05); background-color: #128C7E; }
+        .whatsapp-menu { position: absolute; bottom: 70px; right: 0; background: white; border-radius: 20px; width: 260px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: none; flex-direction: column; overflow: hidden; z-index: 1001; }
+        .whatsapp-menu a { padding: 12px 18px; color: #1a2a3f; text-decoration: none; border-bottom: 1px solid #eee; transition: 0.2s; font-weight: 500; }
+        .whatsapp-menu a:hover { background: #e8f5e9; color: #25D366; }
+        .footer-modern { background: #0e0f0f; color: #fff; padding: 60px 0 30px; margin-top: 60px; }
+        .footer-modern a { color: #ccc; text-decoration: none; transition: 0.2s; }
+        .footer-modern a:hover { color: var(--primary); }
+        .social-icons a { font-size: 1.5rem; margin-right: 15px; display: inline-block; }
+        .card-modern { background: white; border-radius: 24px; border: 1px solid var(--gray-border); padding: 1.8rem; transition: all 0.3s ease; height: 100%; }
+        .service-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 1.2rem; }
+        @media (max-width: 768px) { .hero-search h1 { font-size: 2rem; } .section-title { font-size: 1.8rem; } }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#"><img src="https://inelco.mx/images/logo-positivo.png" alt="Inelco IT Solutions"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="#industrias">Industrias</a></li>
+                <li class="nav-item"><a class="nav-link" href="#cursos">Cursos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#evolucion">Evolución TI</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            </ul>
+            <a href="#contacto" class="btn btn-primary-custom ms-lg-3">Cotizar ahora</a>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <!-- HERO con buscador mejorado (tipo ChatGPT) -->
+    <section id="inicio" class="hero-search">
+        <div class="container text-center">
+            <h1 data-aos="fade-up">Todo lo que tu empresa necesita en <span class="highlight">tecnología</span></h1>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;" data-aos="fade-up">Software, infraestructura, cursos, asesoría con IA. Pregunta o cotiza al instante.</p>
+            <div class="search-big mx-auto" style="max-width: 800px;" data-aos="fade-up">
+                <div class="search-container">
+                    <div class="search-input-group">
+                        <input type="text" id="globalSearch" class="form-control-lg" placeholder="Ej: ¿Cómo aumentar mis ventas con sistemas administrativos? | Cotizar cámaras de seguridad..." style="border:none; background:transparent;">
+                        <div class="search-actions">
+                            <button id="voiceSearchBtn" title="Entrada por voz"><i class="fas fa-microphone"></i></button>
+                            <button id="sendSearchBtn" title="Enviar consulta"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="searchAnswerArea" class="mt-3 text-start"></div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-center gap-2 mt-4" data-aos="fade-up" id="chipsContainer"></div>
+        </div>
+    </section>
+
+    <!-- PROBLEMAS COMUNES (se mantiene) -->
+    <section style="background-color: var(--gray-light);">
+        <div class="container"><h2 class="section-title">¿Tu empresa enfrenta estos desafíos?</h2><p class="section-subtitle">Identificamos barreras tecnológicas y las resolvemos con soluciones integrales.</p>
+            <div class="row g-4"><div class="col-md-4"><div class="problem-card p-4 bg-white rounded-4 shadow-sm"><i class="fas fa-tasks fa-2x text-primary mb-3"></i><h5>Procesos manuales y lentos</h5><p>Automatizamos tareas administrativas para ahorrar tiempo.</p></div></div>
+            <div class="col-md-4"><div class="problem-card p-4 bg-white rounded-4 shadow-sm"><i class="fas fa-chart-line fa-2x text-primary mb-3"></i><h5>Falta de control y visibilidad</h5><p>ERP y dashboards que centralizan información clave.</p></div></div>
+            <div class="col-md-4"><div class="problem-card p-4 bg-white rounded-4 shadow-sm"><i class="fas fa-microchip fa-2x text-primary mb-3"></i><h5>Sistemas obsoletos</h5><p>Renovamos hardware, software y redes para mantenerte competitivo.</p></div></div></div>
+        </div>
+    </section>
+
+    <!-- SERVICIOS (ya existentes, intactos) -->
+    <section id="servicios"><div class="container"><h2 class="section-title">Soluciones tecnológicas integrales</h2><p class="section-subtitle">Desde desarrollo de software hasta infraestructura física.</p><div class="row g-4"><div class="col-md-6 col-lg-4"><div class="card-modern"><i class="fas fa-code service-icon"></i><h4>Software a medida</h4><ul class="list-unstyled"><li>✓ Automatización de procesos</li><li>✓ Reducción de costos hasta 40%</li></ul></div></div><div class="col-md-6 col-lg-4"><div class="card-modern"><i class="fas fa-server service-icon"></i><h4>Infraestructura TI</h4><ul><li>✓ Redes seguras</li><li>✓ Servidores físicos/virtuales</li></ul></div></div><div class="col-md-6 col-lg-4"><div class="card-modern"><i class="fas fa-cloud-upload-alt service-icon"></i><h4>Cloud</h4><ul><li>✓ AWS, Azure, GCP</li><li>✓ Backups y DRP</li></ul></div></div><div class="col-md-6 col-lg-4"><div class="card-modern"><i class="fas fa-headset service-icon"></i><h4>Soporte 24/7</h4><ul><li>✓ Respuesta en 30 min</li><li>✓ Mantenimiento preventivo</li></ul></div></div><div class="col-md-6 col-lg-4"><div class="card-modern"><i class="fas fa-shield-alt service-icon"></i><h4>Ciberseguridad</h4><ul><li>✓ Auditorías y cumplimiento LFPDPPP</li></ul></div></div><div class="col-md-6 col-lg-4"><div class="card-modern"><i class="fas fa-graduation-cap service-icon"></i><h4>Capacitación y cursos</h4><ul><li>✓ Certificaciones y talleres</li></ul></div></div></div></div></section>
+
+    <!-- EVOLUCIÓN TECNOLÓGICA (Línea de tiempo + gráfico conceptual) -->
+    <section id="evolucion" style="background-color: var(--gray-light);">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Evolución de la tecnología en las empresas</h2>
+            <p class="section-subtitle" data-aos="fade-up">Cómo la digitalización ha potenciado ventas, eficiencia y competitividad.</p>
+            <div class="timeline" data-aos="fade-up">
+                <div class="timeline-item left"><div class="timeline-content"><h4>1980-1990 🌐</h4><p>Primeras computadoras personales y redes básicas. Automatización de nóminas y facturación. Incremento de productividad inicial +15%.</p></div></div>
+                <div class="timeline-item right"><div class="timeline-content"><h4>2000-2010 📈</h4><p>Internet y ERP. Las empresas con CRM aumentaron ventas un 30%. Nacen los e-commerce.</p></div></div>
+                <div class="timeline-item left"><div class="timeline-content"><h4>2015-2020 ☁️</h4><p>Cloud Computing, Big Data. Reducción de costos IT en 40% y escalabilidad global. Las ventas online crecieron 200%.</p></div></div>
+                <div class="timeline-item right"><div class="timeline-content"><h4>2025 en adelante 🤖</h4><p>IA generativa, automatización inteligente, ciberseguridad predictiva. Empresas que adoptan IA aumentan eficiencia +50% y ventas personalizadas.</p></div></div>
+            </div>
+            <div class="text-center mt-5"><div class="bg-white p-4 rounded-4 shadow-sm"><i class="fas fa-chart-line fa-3x text-primary"></i><h5 class="mt-2">Impacto en ventas: +300% en empresas totalmente digitalizadas</h5><div class="progress mt-3" style="height: 12px;"><div class="progress-bar bg-primary" style="width: 85%;">85% mayor ROI</div></div></div></div>
+        </div>
+    </section>
+
+    <!-- MAPA GOOGLE (Leaflet) con pines -->
+    <section><div class="container"><h2 class="section-title">Nuestra presencia nacional</h2><p class="section-subtitle">Oficinas estratégicas para atenderte en todo México</p><div class="map-container" id="mapaMexico"></div></div></section>
+
+    <!-- CURSOS (existente) -->
+    <section id="cursos"><div class="container"><h2 class="section-title">Cursos y certificaciones</h2><div class="row g-4"><div class="col-md-4"><div class="card-modern"><i class="fas fa-microchip fa-2x text-primary"></i><h5>Inteligencia Artificial para empresas</h5><p>12 mayo 2025 | $2,500 MXN</p><button class="btn btn-outline-custom btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal">Detalles</button></div></div><div class="col-md-4"><div class="card-modern"><i class="fas fa-cloud-upload-alt fa-2x text-primary"></i><h5>Cloud Computing Avanzado</h5><p>20 mayo 2025 | $3,200 MXN</p><button class="btn btn-outline-custom btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal">Detalles</button></div></div><div class="col-md-4"><div class="card-modern"><i class="fas fa-shield-alt fa-2x text-primary"></i><h5>Ciberseguridad para PyMEs</h5><p>3 junio 2025 | $3,800 MXN</p><button class="btn btn-outline-custom btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal">Detalles</button></div></div></div></div></section>
+
+    <!-- CONTACTO / CTA (antes del footer) -->
+    <section id="contacto" class="container"><div class="cta-section text-center bg-dark text-white rounded-4 p-5"><h3>¿Listo para impulsar tu empresa?</h3><p>Agenda una asesoría gratuita y recibe diagnóstico.</p><button class="btn btn-primary-custom bg-white text-primary" data-bs-toggle="modal" data-bs-target="#asesoriaModal">Agendar asesoría</button></div></section>
+
+    <!-- FOOTER MEJORADO con sucursales, teléfonos -->
+    <footer class="footer-modern">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4"><img src="https://inelco.mx/images/logo-positivo.png" style="height: 45px; filter: brightness(0) invert(1);"><p class="mt-3 small">Plataforma integral: software, infraestructura, cursos y asesoría con IA para empresas.</p><div class="social-icons mt-3"><a href="#"><i class="fab fa-linkedin"></i></a> <a href="#"><i class="fab fa-twitter"></i></a> <a href="#"><i class="fab fa-facebook"></i></a> <a href="#"><i class="fab fa-instagram"></i></a></div></div>
+                <div class="col-md-4"><h5>Sucursales</h5><ul class="list-unstyled"><li><i class="fas fa-map-marker-alt me-2"></i> CDMX: Av. Insurgentes 950, Roma</li><li><i class="fas fa-map-marker-alt me-2"></i> Monterrey: Av. Gómez Morín 245, San Pedro</li><li><i class="fas fa-map-marker-alt me-2"></i> San Luis Potosí: Blvd. Río Santiago 102</li><li><i class="fas fa-map-marker-alt me-2"></i> Baja California: Paseo de los Héroes 321, Tijuana</li><li><i class="fas fa-phone me-2"></i> Tel CDMX: (55) 1234 5678 | MTY: (81) 2345 6789 | SLP: (444) 567 8901 | BC: (664) 789 0123</li></ul></div>
+                <div class="col-md-4"><h5>Contacto directo</h5><p><i class="fas fa-envelope me-2"></i> contacto@inelco.mx<br><i class="fas fa-globe me-2"></i> www.inelco.mx<br><i class="fab fa-whatsapp me-2"></i> +52 55 8765 4321 (Atención inmediata)</p><h5 class="mt-3">Horario de atención</h5><p>Lun-Vie: 8am - 8pm | Sáb: 9am - 2pm</p></div>
+            </div>
+            <hr class="mt-4"><div class="text-center small">© 2025 Inelco IT Solutions — Innovación tecnológica para tu negocio</div>
+        </div>
+    </footer>
+</main>
+
+<!-- MODALES iguales -->
+<div class="modal fade" id="eventModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>Registro a curso</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="text" id="regName" class="form-control mb-2" placeholder="Nombre"><input type="email" id="regEmail" class="form-control mb-2" placeholder="Email"><button class="btn btn-primary-custom w-100" onclick="alert('Registro simulado exitoso')">Registrarme</button></div></div></div></div>
+<div class="modal fade" id="asesoriaModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>Asesoría gratuita</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="text" id="asesorNombre" class="form-control mb-2" placeholder="Nombre"><input type="email" id="asesorEmail" class="form-control mb-2" placeholder="Email"><button class="btn btn-primary-custom w-100" onclick="alert('Solicitud enviada, asesor te contactará')">Enviar</button></div></div></div></div>
+
+<!-- WHATSAPP FLOTANTE + MENU DE PREGUNTAS -->
+<div class="whatsapp-float" id="whatsappFloatBtn">
+    <i class="fab fa-whatsapp fa-2x"></i> <span>¿Ayuda?</span>
+    <div class="whatsapp-menu" id="whatsappMenu">
+        <a href="#" data-msg="Necesito ayuda de un asesor técnico">🧑‍💻 Necesitar ayuda de asesor</a>
+        <a href="#" data-msg="Quiero cotizar equipos de cómputo y servidores">📦 Quiero cotizar equipos</a>
+        <a href="#" data-msg="Quiero cotizar sistemas administrativos o software a medida">💻 Quiero cotizar sistemas</a>
+        <a href="#" data-msg="Cotización de seguridad en IT y ciberseguridad">🔒 Cotizar ciberseguridad</a>
+        <a href="#" data-msg="Deseo soporte técnico urgente">⚡ Soporte técnico urgente</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    AOS.init({ duration: 700, once: true });
+
+    // ---------- Base de conocimiento mejorada (simulador ChatGPT) ----------
+    const knowledgeDB = [
+        { keywords: ["aumentar mis ventas", "ventas con sistemas administrativos", "cómo aumentar ventas"], answer: "📈 **Cómo aumentar ventas con sistemas administrativos:** Implementar un ERP/CRM te permite automatizar seguimiento de leads, facturación electrónica y análisis de datos en tiempo real. Nuestros clientes han visto incrementos de hasta un 40% en conversiones. ¿Te interesa una demo? Solicita asesoría." },
+        { keywords: ["instalar cámaras", "auditorias de seguridad", "cámaras y auditorías"], answer: "🔒 **Instalación de cámaras y auditorías de seguridad:** Ofrecemos CCTV IP con análisis de video, monitoreo remoto y auditorías periódicas de vulnerabilidad física y digital. Protege tus instalaciones 24/7. ¡Cotiza sin costo!" },
+        { keywords: ["actualizar servidores", "actualizar equipos", "servidores y equipos"], answer: "🖥️ **Actualización de servidores y equipos:** Realizamos diagnóstico de hardware, migración a servidores de última generación (HPE, Dell) o infraestructura cloud híbrida. Aumenta rendimiento +50% y reduce downtime. Solicita cotización." },
+        { keywords: ["cotización de seguridad", "cotizar seguridad it", "seguridad en it"], answer: "🛡️ **Cotización de seguridad en IT:** Incluye firewall corporativo, antivirus avanzado, políticas de backup y cumplimiento LFPDPPP. Precios personalizados según tamaño de empresa. ¿Deseas más detalles? Contáctanos." },
+        { keywords: ["cloud y respaldo", "backup en la nube", "cloud respaldo"], answer: "☁️ **Cloud y respaldo:** Soluciones de backup automatizado en AWS/Azure con retención configurable, recuperación ante desastres en minutos. Tus datos seguros y accesibles desde cualquier lugar. ¡Pide tu presupuesto!" },
+        { keywords: ["software a medida", "sistema administrativo"], answer: "💡 **Software a medida:** Desarrollamos plataformas de gestión de inventarios, facturación, RH y más. Integración con tu ecosistema actual. Ahorra costos hasta 40%." }
+    ];
+
+    function simulateChatGPTResponse(query) {
+        let lowerQuery = query.toLowerCase();
+        let found = knowledgeDB.find(item => item.keywords.some(kw => lowerQuery.includes(kw)));
+        if (found) return found.answer;
+        return "🤖 **IA Inelco:** No encontré una coincidencia exacta, pero un asesor experto puede ayudarte. ¿Te gustaría agendar una asesoría gratuita? Haz clic en 'Agendar asesoría'.";
+    }
+
+    // Envío de consulta y render respuesta estilo ChatGPT
+    const sendBtn = document.getElementById('sendSearchBtn');
+    const searchInput = document.getElementById('globalSearch');
+    const answerArea = document.getElementById('searchAnswerArea');
+
+    function processQuery() {
+        let query = searchInput.value.trim();
+        if (!query) { answerArea.innerHTML = `<div class="alert alert-warning">Escribe una pregunta o solicitud.</div>`; return; }
+        let responseText = simulateChatGPTResponse(query);
+        answerArea.innerHTML = `<div class="ia-response-card"><i class="fas fa-robot me-2 text-primary"></i><strong>Respuesta Inelco AI:</strong><br>${responseText}</div>`;
+    }
+    sendBtn.addEventListener('click', processQuery);
+    searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') processQuery(); });
+
+    // VOZ (Speech Recognition)
+    const voiceBtn = document.getElementById('voiceSearchBtn');
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'es-MX';
+        recognition.continuous = false;
+        voiceBtn.addEventListener('click', () => {
+            recognition.start();
+            voiceBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+        });
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            searchInput.value = transcript;
+            processQuery();
+            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        };
+        recognition.onerror = () => { voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>'; alert("Intenta de nuevo el reconocimiento de voz."); };
+        recognition.onend = () => { voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>'; };
+    } else { voiceBtn.style.display = 'none'; }
+
+    // CHIPS dinámicos (temas mejorados con descripción)
+    const chipsData = [
+        { label: "☁️ Cloud y respaldo", desc: "Soluciones de backup en nube, recuperación ante desastres y escalabilidad.", query: "cloud y respaldo" },
+        { label: "📈 Aumentar ventas con software", desc: "Sistemas ERP/CRM que impulsan conversiones y automatizan procesos.", query: "como aumentar mis ventas con ayuda de sistemas administrativos" },
+        { label: "🎥 Cámaras y auditorías", desc: "Instalación de CCTV IP y auditorías de seguridad perimetral.", query: "como instalar cámaras y auditorias de seguridad" },
+        { label: "🖥️ Actualizar servidores", desc: "Renovación de hardware, servidores cloud y rendimiento óptimo.", query: "como actualizar los servidores y equipos de mi empresa" },
+        { label: "🔐 Cotización seguridad IT", desc: "Protección de datos, firewalls, antivirus empresarial.", query: "quiero una cotización de seguridad en IT" },
+        { label: "🤖 Automatización IA", desc: "Chatbots, analítica predictiva y optimización con IA.", query: "automatización con inteligencia artificial" },
+        { label: "📊 Dashboard KPI", desc: "Tableros de control en tiempo real para toma de decisiones.", query: "tableros de control y KPI para mi negocio" }
+    ];
+    const chipsContainer = document.getElementById('chipsContainer');
+    chipsData.forEach(chip => {
+        let chipBtn = document.createElement('button');
+        chipBtn.className = 'chip-btn';
+        chipBtn.innerHTML = `${chip.label} <small class="text-muted" style="font-size:0.7rem; display:block;">${chip.desc.substring(0, 40)}...</small>`;
+        chipBtn.setAttribute('data-query', chip.query);
+        chipBtn.addEventListener('click', () => {
+            searchInput.value = chip.query;
+            processQuery();
+        });
+        chipsContainer.appendChild(chipBtn);
+    });
+
+    // Mapa con Leaflet (puntos en México, Monterrey, San Luis, Baja California)
+    const map = L.map('mapaMexico').setView([23.6345, -102.5528], 5);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>' }).addTo(map);
+    const locations = [
+        { name: "CDMX", coords: [19.4326, -99.1332] },
+        { name: "Monterrey", coords: [25.6866, -100.3161] },
+        { name: "San Luis Potosí", coords: [22.1565, -100.9855] },
+        { name: "Baja California (Tijuana)", coords: [32.5149, -117.0382] }
+    ];
+    locations.forEach(loc => { L.marker(loc.coords).addTo(map).bindPopup(`<b>${loc.name}</b><br>Oficina Inelco - Asesoría y ventas`).openPopup(); });
+
+    // WhatsApp flotante con menú de sugerencias
+    const floatBtn = document.getElementById('whatsappFloatBtn');
+    const menu = document.getElementById('whatsappMenu');
+    floatBtn.addEventListener('click', (e) => { e.stopPropagation(); menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex'; });
+    document.addEventListener('click', () => { menu.style.display = 'none'; });
+    const waLinks = document.querySelectorAll('.whatsapp-menu a');
+    waLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            let msg = link.getAttribute('data-msg');
+            let phone = "5215555555555"; // número demo, reemplazar con real
+            let url = `https://wa.me/${phone}?text=${encodeURIComponent(msg + " - Inelco IT Solutions. ¡Me interesa!")}`;
+            window.open(url, '_blank');
+            menu.style.display = 'none';
+        });
+    });
+
+    // scroll suave para anclas
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            let target = document.querySelector(this.getAttribute('href'));
+            if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Inelco IT Solutions | Ecosistema Tecnológico para Empresas</title>
+    <!-- Bootstrap 5 + Google Fonts + Remix Icon + Swiper + AOS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1a2a3f; overflow-x: hidden; }
+        :root { --primary: #0098F0; --primary-dark: #0077cc; --gray-light: #f8f9fb; --gray-border: #eef2f6; }
+        .btn-primary-custom { background-color: var(--primary); color: white; border: none; padding: 12px 32px; border-radius: 50px; font-weight: 600; transition: 0.3s; }
+        .btn-primary-custom:hover { background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,152,240,0.25); }
+        .btn-outline-custom { background: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 10px 28px; border-radius: 50px; font-weight: 600; }
+        .navbar { background: white !important; box-shadow: 0 2px 20px rgba(0,0,0,0.03); padding: 1rem 0; }
+        .navbar-brand img { height: 45px; filter: brightness(0) invert(0); }
+        section { padding: 80px 0; }
+        .section-title { font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 1rem; }
+        .section-subtitle { text-align: center; color: #5a6e85; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .hero-search { background: linear-gradient(135deg, #ffffff 0%, var(--gray-light) 100%); padding: 100px 0 70px; margin-top: 70px; }
+        .search-container { max-width: 800px; margin: 2rem auto; position: relative; }
+        .search-box { width: 100%; border-radius: 60px; border: 2px solid var(--gray-border); padding: 18px 25px; font-size: 1.1rem; background: white; }
+        .search-actions { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); display: flex; gap: 12px; background: white; padding-left: 10px; }
+        .search-actions i { font-size: 1.4rem; color: #6c757d; cursor: pointer; }
+        .chip-btn { background: white; border: 1px solid var(--gray-border); border-radius: 50px; padding: 10px 24px; font-weight: 600; transition: 0.2s; margin: 5px; }
+        .chip-btn.active, .chip-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .dynamic-results { margin-top: 30px; background: var(--gray-light); border-radius: 24px; padding: 20px; display: none; }
+        .card-modern { background: white; border-radius: 24px; border: 1px solid var(--gray-border); padding: 1.8rem; transition: 0.3s; height: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+        .card-modern:hover { transform: translateY(-6px); box-shadow: 0 20px 35px rgba(0,0,0,0.08); }
+        .timeline-item { border-left: 3px solid var(--primary); padding-left: 2rem; margin-bottom: 2rem; position: relative; }
+        .timeline-year { font-weight: 800; color: var(--primary); font-size: 1.5rem; }
+        .step-number { width: 56px; height: 56px; background: var(--primary); color: white; border-radius: 60px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: bold; margin: 0 auto 1rem; cursor: pointer; }
+        .testimonial-card { background: var(--gray-light); border-radius: 24px; padding: 2rem; }
+        .cta-section { background: linear-gradient(135deg, #0b0b0b 0%, #0f1113 100%); border-radius: 32px; padding: 60px 40px; }
+        footer { background: #0e0f0f; color: #fff; padding: 60px 0 30px; }
+        .swiper-slide { height: auto; }
+        @media (max-width: 768px) { .section-title { font-size: 1.8rem; } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="https://inelco.mx/images/logo-positivo.png" alt="Inelco"></a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#soluciones">Soluciones</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#crecimiento">Crecimiento</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#cursos">Cursos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#descargas">Descargas</a></li>
+                </ul>
+                <a href="#contacto" class="btn btn-primary-custom ms-lg-3">Cotizar ahora</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO con buscador y animación de tipeo -->
+        <section id="inicio" class="hero-search">
+            <div class="container text-center">
+                <h1 data-aos="fade-up">La <span style="color:var(--primary)">tecnología</span> que hace crecer tu empresa</h1>
+                <p class="lead text-muted mx-auto" style="max-width:700px">Infraestructura, software administrativo, CRM y seguridad en un solo ecosistema.</p>
+                <div class="search-container" data-aos="fade-up">
+                    <input type="text" id="dynamicSearchInput" class="search-box" placeholder="¿Qué necesita tu negocio?">
+                    <div class="search-actions"><i class="ri-attachment-2"></i><i class="ri-mic-line"></i><i class="ri-arrow-up-line"></i></div>
+                </div>
+                <div class="d-flex flex-wrap justify-content-center gap-2 mt-4" id="dynamicChips">
+                    <button class="chip-btn" data-type="crm">CRM y Ventas</button>
+                    <button class="chip-btn" data-type="administrativo">Sistemas Administrativos</button>
+                    <button class="chip-btn" data-type="infraestructura">Infraestructura TI</button>
+                    <button class="chip-btn" data-type="seguridad">Seguridad y Antivirus</button>
+                    <button class="chip-btn" data-type="cloud">Cloud y Respaldo</button>
+                </div>
+                <div id="dynamicResults" class="dynamic-results"></div>
+            </div>
+        </section>
+
+        <!-- Sección: Importancia de la Tecnología en Ventas -->
+        <section style="background-color: var(--gray-light);">
+            <div class="container">
+                <h2 class="section-title">El impacto real de la tecnología en las ventas</h2>
+                <div class="row align-items-center">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <p class="lead">Las empresas que implementan <strong>CRM y automatización</strong> aumentan sus ventas hasta un <span class="text-primary fw-bold">30%</span> en el primer año.</p>
+                        <p>Inelco ha ayudado a más de 500 empresas a digitalizar sus procesos comerciales, reduciendo tiempos de respuesta y cerrando negocios más rápido.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="ri-checkbox-circle-line text-primary me-2"></i> Clientes recuperados: 45% más</li>
+                            <li><i class="ri-checkbox-circle-line text-primary me-2"></i> Tiempo de cotización: reduce 70%</li>
+                            <li><i class="ri-checkbox-circle-line text-primary me-2"></i> Fidelización: aumenta 2.5x con CRM</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <div class="card-modern"><i class="ri-bar-chart-2-line fs-1 text-primary"></i><h4 class="mt-2">Ejemplo real: Retail "MODA Express"</h4><p>Implementamos CRM + ERP en 3 meses. Resultado: Aumento del 40% en ventas cruzadas y reducción de inventario muerto.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ciclo / Gráfico de la empresa (Infraestructura -> SO -> Seguridad -> CRM -> Ventas) -->
+        <section id="crecimiento">
+            <div class="container">
+                <h2 class="section-title">El ciclo virtuoso de la tecnología empresarial</h2>
+                <div class="row g-4 text-center">
+                    <div class="col-md-2"><div class="card-modern"><i class="ri-server-line fs-1 text-primary"></i><h6>1. Infraestructura</h6><small>Servidores, redes, CCTV</small></div></div>
+                    <div class="col-md-2"><div class="card-modern"><i class="ri-windows-line fs-1 text-primary"></i><h6>2. Sistemas Operativos</h6><small>Windows, Linux, virtualización</small></div></div>
+                    <div class="col-md-2"><div class="card-modern"><i class="ri-shield-line fs-1 text-primary"></i><h6>3. Seguridad + Antivirus</h6><small>Firewalls, endpoint, backups</small></div></div>
+                    <div class="col-md-2"><div class="card-modern"><i class="ri-database-2-line fs-1 text-primary"></i><h6>4. Sistemas Admin</h6><small>ERP, facturación, nóminas</small></div></div>
+                    <div class="col-md-2"><div class="card-modern"><i class="ri-group-line fs-1 text-primary"></i><h6>5. CRM</h6><small>Ventas, marketing, fidelización</small></div></div>
+                    <div class="col-md-2"><div class="card-modern"><i class="ri-bar-chart-line fs-1 text-primary"></i><h6>6. + Ventas</h6><small>Escalabilidad y crecimiento</small></div></div>
+                </div>
+                <p class="text-center mt-4 text-muted">La integración de estos 6 pilares asegura empresas competitivas, seguras y en constante evolución.</p>
+            </div>
+        </section>
+
+        <!-- Línea de tiempo interactiva -->
+        <section style="background-color: var(--gray-light);">
+            <div class="container">
+                <h2 class="section-title">Evolución de la infraestructura TI</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="timeline-item"><div class="timeline-year">2015</div><p>Servidores físicos on-premise, alto costo de mantenimiento.</p></div>
+                        <div class="timeline-item"><div class="timeline-year">2018</div><p>Virtualización y primeros pasos a la nube híbrida.</p></div>
+                        <div class="timeline-item"><div class="timeline-year">2021</div><p>Migración masiva a Cloud (AWS/Azure), trabajo remoto seguro.</p></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="timeline-item"><div class="timeline-year">2023</div><p>Automatización de procesos con IA y ciberseguridad avanzada.</p></div>
+                        <div class="timeline-item"><div class="timeline-year">2025</div><p>Ecosistemas Zero Trust, CRM integrado con Big Data.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sistemas Administrativos (ERP, Facturación, Inventarios) -->
+        <section id="soluciones">
+            <div class="container">
+                <h2 class="section-title">Sistemas Administrativos para tu negocio</h2>
+                <div class="row g-4">
+                    <div class="col-md-4"><div class="card-modern"><i class="ri-file-copy-line fs-1 text-primary"></i><h5>Facturación Electrónica</h5><p>CFDI 4.0, complementos de pago, nómina. Cumplimiento fiscal garantizado.</p></div></div>
+                    <div class="col-md-4"><div class="card-modern"><i class="ri-stack-line fs-1 text-primary"></i><h5>ERP Integral</h5><p>Control de inventarios, compras, ventas, producción y finanzas en un solo lugar.</p></div></div>
+                    <div class="col-md-4"><div class="card-modern"><i class="ri-user-settings-line fs-1 text-primary"></i><h5>Gestión de RRHH</h5><p>Nóminas, control de asistencia, expedientes digitales y evaluación de desempeño.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CURSOS con carrusel (detallados) -->
+        <section id="cursos" style="background-color: var(--gray-light);">
+            <div class="container">
+                <h2 class="section-title">Capacitación empresarial</h2>
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><div class="card-modern"><i class="ri-customer-service-line fs-1 text-primary"></i><h5>CRM para Ventas</h5><p>20 participantes | 16h | Online</p><button class="btn btn-outline-custom btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal">Ver</button></div></div>
+                        <div class="swiper-slide"><div class="card-modern"><i class="ri-shield-line fs-1 text-primary"></i><h5>Ciberseguridad</h5><p>25 cupos | 24h | Presencial CDMX</p><button class="btn btn-outline-custom btn-sm" data-bs-toggle="modal">Info</button></div></div>
+                        <div class="swiper-slide"><div class="card-modern"><i class="ri-database-2-line fs-1 text-primary"></i><h5>SQL y Power BI</h5><p>12 participantes | 20h | En vivo</p><button class="btn btn-outline-custom btn-sm">Detalles</button></div></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAPA -->
+        <section><div class="container"><h2 class="section-title">Cobertura nacional</h2><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d239597.41642530076!2d-100.410667146331!3d25.669348144121212!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86629531b437e673%3A0x6b5c4d6e7b0f0e3d!2sMonterrey%2C%20Nuevo%20Le%C3%B3n!5e0!3m2!1ses!2smx!4v1650000000000!5m2!1ses!2smx" width="100%" height="350" style="border:0; border-radius: 24px;" allowfullscreen></iframe><div class="row mt-3 text-center"><div class="col-3"><i class="ri-map-pin-line"></i> Monterrey</div><div class="col-3"><i class="ri-map-pin-line"></i> CDMX</div><div class="col-3"><i class="ri-map-pin-line"></i> San Luis Potosí</div><div class="col-3"><i class="ri-map-pin-line"></i> Baja California</div></div></div></section>
+
+        <!-- Centro de descargas APP -->
+        <section id="descargas"><div class="container"><h2 class="section-title">Centro de descargas profesional</h2><div class="row g-4"><div class="col-md-4"><div class="card-modern text-center"><i class="ri-windows-line fs-1"></i><h5>Software empresarial</h5><p>Aspel, Microsoft, SAP, Oracle</p><button class="btn btn-primary-custom btn-sm" onclick="alert('Portal de descargas legales')">Explorar</button></div></div><div class="col-md-4"><div class="card-modern text-center"><i class="ri-shield-check-line fs-1"></i><h5>Antivirus y Seguridad</h5><p>Kaspersky, ESET, Bitdefender</p><button class="btn btn-primary-custom btn-sm">Descargar trial</button></div></div><div class="col-md-4"><div class="card-modern text-center"><i class="ri-database-2-line fs-1"></i><h5>Drivers y utilerías</h5><p>Actualizaciones oficiales</p><button class="btn btn-primary-custom btn-sm">Ver todo</button></div></div></div><p class="text-center mt-4 text-muted">+200 recursos disponibles para empresas socias. Descarga legal y actualizada.</p></div></section>
+
+        <!-- CTA Final -->
+        <section id="contacto" class="container"><div class="cta-section text-center"><h3 class="text-white">¿Listo para digitalizar tu negocio?</h3><button class="btn btn-primary-custom bg-white text-primary" data-bs-toggle="modal" data-bs-target="#asesoriaModal">Agendar asesoría ejecutiva</button></div></section>
+
+        <footer><div class="container"><div class="row"><div class="col-md-4"><img src="https://inelco.mx/images/logo-positivo.png" style="height:45px; filter:brightness(0) invert(1)"><p class="mt-2">Ecosistema integral para empresas</p></div><div class="col-md-4"><h5>Legal</h5><a href="#">Aviso de privacidad</a></div><div class="col-md-4"><h5>Contacto</h5><p>contacto@inelco.mx</p></div></div><hr><div class="text-center">© 2025 Inelco IT Solutions - CRM, Infraestructura y Seguridad</div></div></footer>
+    </main>
+
+    <!-- MODALES -->
+    <div class="modal fade" id="eventModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>Registro a curso</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="text" class="form-control mb-2" placeholder="Nombre"><input type="email" class="form-control mb-2" placeholder="Email"><button class="btn btn-primary-custom w-100" onclick="alert('Registro simulado exitoso')">Inscribirme</button></div></div></div></div>
+    <div class="modal fade" id="asesoriaModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>Asesoría gratuita</h5></div><div class="modal-body"><input type="text" class="form-control mb-2" placeholder="Nombre"><input type="email" class="form-control mb-2" placeholder="Email"><button class="btn btn-primary-custom w-100" onclick="alert('Solicitud enviada')">Enviar</button></div></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        AOS.init({ duration: 700, once: true });
+        new Swiper('.mySwiper', { slidesPerView: 1, spaceBetween: 20, pagination: { el: '.swiper-pagination', clickable: true }, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } } });
+
+        // ANIMACIÓN DE TIPEO EN EL BUSCADOR
+        const phrases = ["CRM para ventas", "ERP y facturación", "Infraestructura de redes", "Antivirus empresarial", "Respaldo en la nube"];
+        let i = 0, j = 0, currentPhrase = [], isDeleting = false;
+        function typeEffect() {
+            const inputField = document.getElementById('dynamicSearchInput');
+            if (isDeleting) {
+                currentPhrase.pop();
+                inputField.placeholder = currentPhrase.join('');
+                if (currentPhrase.length === 0) { isDeleting = false; i = (i + 1) % phrases.length; }
+            } else {
+                let fullText = phrases[i];
+                if (j <= fullText.length) { currentPhrase.push(fullText[j]); j++; }
+                inputField.placeholder = currentPhrase.join('');
+                if (j === fullText.length + 1) { isDeleting = true; j = 0; setTimeout(typeEffect, 1500); return; }
+            }
+            setTimeout(typeEffect, isDeleting ? 60 : 120);
+        }
+        typeEffect();
+
+        // BOTONES FUNCIONALES CON RESALTADO Y CONTENIDO
+        const resultsMap = {
+            crm: { title: "🚀 CRM y Automatización de Ventas", items: ["Zoho CRM", "Salesforce", "HubSpot", "CRM a la medida Inelco", "Gestión de leads y oportunidades"] },
+            administrativo: { title: "📊 Sistemas Administrativos", items: ["ERP Inelco", "Facturación CFDI", "Control de inventarios", "Nóminas y RRHH", "Contabilidad electrónica"] },
+            infraestructura: { title: "🖧 Infraestructura TI", items: ["Servidores Dell/HP", "Redes Cisco/MikroTik", "Cableado estructurado", "Cámaras Hikvision", "UPS y reguladores"] },
+            seguridad: { title: "🔒 Seguridad y Antivirus", items: ["Kaspersky Endpoint", "ESET PROTECT", "Firewalls Fortinet", "Backup en la nube", "Auditoría de vulnerabilidades"] },
+            cloud: { title: "☁️ Soluciones Cloud", items: ["AWS (Amazon)", "Microsoft Azure", "Google Cloud", "Respaldo automático", "Hosting empresarial"] }
+        };
+        const dynamicDiv = document.getElementById('dynamicResults');
+        const btns = document.querySelectorAll('.chip-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const type = btn.getAttribute('data-type');
+                const data = resultsMap[type];
+                if (data) {
+                    let html = `<h5>${data.title}</h5><div class="row">`;
+                    data.items.forEach(item => { html += `<div class="col-md-4 mb-2"><div class="result-item p-2 bg-white rounded-3"><i class="ri-checkbox-circle-line text-primary me-2"></i>${item}</div></div>`; });
+                    html += `</div><p class="mt-3 small">* Demostración interactiva. Solicita una demo real sin costo.</p>`;
+                    dynamicDiv.innerHTML = html;
+                    dynamicDiv.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

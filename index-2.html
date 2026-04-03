@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Inelco IT Solutions | Plataforma tecnológica integral para empresas</title>
+    <!-- Bootstrap 5 + Google Fonts + Remix Icon (librería gratuita moderna) + AOS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Swiper JS para carrusel moderno -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', system-ui, sans-serif;
+            background-color: #ffffff;
+            color: #1a2a3f;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --primary: #0098F0;
+            --primary-dark: #0077cc;
+            --gray-light: #f8f9fb;
+            --gray-border: #eef2f6;
+            --text-dark: #1a2a3f;
+            --text-muted: #5a6e85;
+        }
+
+        .btn-primary-custom {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary-custom:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,152,240,0.25);
+        }
+        .btn-outline-custom {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+            padding: 1rem 0;
+        }
+        .navbar-brand img {
+            height: 45px;
+            filter: brightness(0) invert(1); /* logo transparente con letras blancas se ve en fondo oscuro, pero en navbar blanco necesita ajuste */
+        }
+        /* Ajuste: navbar blanco, logo oscuro? realmente el logo es transparente con letras blancas, en fondo blanco no se ve. Corregimos */
+        .navbar-brand img {
+            filter: none;
+            content: url('https://inelco.mx/images/logo-positivo.png');
+        }
+        /* Si el logo es blanco sobre fondo blanco, lo cambiamos temporalmente, pero mejor forzamos color oscuro con filtro */
+        .navbar-brand img {
+            filter: brightness(0) invert(0);
+        }
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 600;
+        }
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+        section {
+            padding: 80px 0;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        /* Hero con buscador estilo Lovable */
+        .hero-search {
+            background: linear-gradient(135deg, #ffffff 0%, var(--gray-light) 100%);
+            padding: 100px 0 70px;
+            margin-top: 70px;
+        }
+        .search-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            position: relative;
+        }
+        .search-box {
+            width: 100%;
+            border-radius: 60px;
+            border: 2px solid var(--gray-border);
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            background: white;
+            transition: all 0.2s;
+        }
+        .search-box:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,152,240,0.1);
+        }
+        .search-actions {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 12px;
+            background: white;
+            padding-left: 10px;
+        }
+        .search-actions i {
+            font-size: 1.4rem;
+            color: #6c757d;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .search-actions i:hover {
+            color: var(--primary);
+        }
+        .chip-btn {
+            background: white;
+            border: 1px solid var(--gray-border);
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .chip-btn:hover, .chip-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .dynamic-results {
+            margin-top: 30px;
+            background: var(--gray-light);
+            border-radius: 24px;
+            padding: 20px;
+            display: none;
+        }
+        .result-item {
+            background: white;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 12px;
+            transition: 0.2s;
+        }
+        .result-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .card-modern {
+            background: white;
+            border-radius: 24px;
+            border: 1px solid var(--gray-border);
+            padding: 1.8rem;
+            transition: all 0.3s;
+            height: 100%;
+        }
+        .card-modern:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px rgba(0,0,0,0.08);
+        }
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+        }
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            color: white;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .step-number:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,152,240,0.3);
+        }
+        .step-detail {
+            display: none;
+            margin-top: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+        }
+        .testimonial-card {
+            background: var(--gray-light);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #0b0b0b 0%, #0f1113 100%);
+            border-radius: 32px;
+            padding: 60px 40px;
+        }
+        footer {
+            background: #0e0f0f;
+            color: #fff;
+            padding: 60px 0 30px;
+        }
+        footer a { color: #fff; text-decoration: none; }
+        footer a:hover { color: var(--primary); }
+        .logo-slider {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .logo-track {
+            display: inline-block;
+            animation: scrollLogos 30s linear infinite;
+        }
+        .logo-track img {
+            height: 45px;
+            margin: 0 35px;
+            filter: grayscale(1);
+            opacity: 0.6;
+        }
+        @keyframes scrollLogos {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        /* Mapa estilizado */
+        .map-container {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .swiper-slide {
+            height: auto;
+        }
+        @media (max-width: 768px) {
+            .hero-search h1 { font-size: 2rem; }
+            .section-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="https://inelco.mx/images/logo-positivo.png" alt="Inelco"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#industrias">Industrias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#cursos">Cursos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#conocimiento">Conocimiento IA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#descargas">Descargas</a></li>
+                </ul>
+                <a href="#contacto" class="btn btn-primary-custom ms-lg-3">Cotizar ahora</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO con buscador estilo Lovable (efecto visual) -->
+        <section id="inicio" class="hero-search">
+            <div class="container text-center">
+                <h1 data-aos="fade-up">Todo lo que tu empresa necesita en <span class="highlight" style="color:var(--primary)">tecnología</span></h1>
+                <p class="lead text-muted mx-auto" style="max-width:700px" data-aos="fade-up">Software, infraestructura, cursos, asesoría con IA y recursos técnicos.</p>
+                <div class="search-container" data-aos="fade-up">
+                    <input type="text" id="demoSearch" class="search-box" placeholder="Buscar soluciones, software, cursos... (demo interactivo)">
+                    <div class="search-actions">
+                        <i class="ri-attachment-2"></i>
+                        <i class="ri-mic-line"></i>
+                        <i class="ri-arrow-up-line"></i>
+                    </div>
+                </div>
+                <!-- Botones funcionales (chips) -->
+                <div class="d-flex flex-wrap justify-content-center gap-2 mt-4" id="dynamicChips">
+                    <button class="chip-btn" data-type="software">Software a medida</button>
+                    <button class="chip-btn" data-type="infraestructura">Infraestructura TI</button>
+                    <button class="chip-btn" data-type="cursos">Cursos y talleres</button>
+                    <button class="chip-btn" data-type="cloud">Soluciones Cloud</button>
+                    <button class="chip-btn" data-type="soporte">Soporte 24/7</button>
+                    <button class="chip-btn" data-type="ciberseguridad">Ciberseguridad</button>
+                </div>
+                <!-- Contenedor dinámico para resultados de búsqueda por chip -->
+                <div id="dynamicResults" class="dynamic-results"></div>
+            </div>
+        </section>
+
+        <!-- PROBLEMAS COMUNES (se mantiene igual) -->
+        <section style="background-color: var(--gray-light);">
+            <div class="container">
+                <h2 class="section-title">¿Tu empresa enfrenta estos desafíos?</h2>
+                <div class="row g-4">
+                    <div class="col-md-4"><div class="problem-card p-4 bg-white rounded-4 shadow-sm"><i class="ri-task-line fs-1" style="color:var(--primary)"></i><h5 class="mt-2">Procesos manuales</h5><p>Automatizamos tareas administrativas.</p></div></div>
+                    <div class="col-md-4"><div class="problem-card p-4 bg-white rounded-4 shadow-sm"><i class="ri-bar-chart-2-line fs-1" style="color:var(--primary)"></i><h5>Falta de control</h5><p>ERP y dashboards centralizados.</p></div></div>
+                    <div class="col-md-4"><div class="problem-card p-4 bg-white rounded-4 shadow-sm"><i class="ri-cpu-line fs-1" style="color:var(--primary)"></i><h5>Sistemas obsoletos</h5><p>Renovamos hardware y software.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICIOS (íconos con Remix Icon) -->
+        <section id="servicios">
+            <div class="container">
+                <h2 class="section-title">Soluciones tecnológicas integrales</h2>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4"><div class="card-modern"><i class="ri-code-s-slash-line service-icon"></i><h4>Desarrollo a medida</h4><ul class="benefit-list"><li>Automatización de procesos</li><li>Reducción de costos 40%</li></ul></div></div>
+                    <div class="col-md-6 col-lg-4"><div class="card-modern"><i class="ri-server-line service-icon"></i><h4>Infraestructura TI</h4><ul><li>Redes, servidores, CCTV</li></ul></div></div>
+                    <div class="col-md-6 col-lg-4"><div class="card-modern"><i class="ri-cloud-line service-icon"></i><h4>Soluciones Cloud</h4><ul><li>AWS, Azure, GCP</li></ul></div></div>
+                    <div class="col-md-6 col-lg-4"><div class="card-modern"><i class="ri-customer-service-line service-icon"></i><h4>Soporte 24/7</h4><ul><li>Respuesta rápida</li></ul></div></div>
+                    <div class="col-md-6 col-lg-4"><div class="card-modern"><i class="ri-shield-check-line service-icon"></i><h4>Ciberseguridad</h4><ul><li>Auditorías y protección</li></ul></div></div>
+                    <div class="col-md-6 col-lg-4"><div class="card-modern"><i class="ri-graduation-cap-line service-icon"></i><h4>Capacitación</h4><ul><li>Cursos y certificaciones</li></ul></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- METODOLOGÍA con botones desplegables -->
+        <section style="background-color: var(--gray-light);">
+            <div class="container">
+                <h2 class="section-title">Metodología de trabajo</h2>
+                <div class="row text-center g-4">
+                    <div class="col-md-2"><div class="step-card"><div class="step-number" data-step="1">1</div><h6>Análisis</h6><div id="stepDetail1" class="step-detail"><strong>Ejemplo:</strong> Reunión inicial, levantamiento de requerimientos, diagnóstico de infraestructura actual.</div></div></div>
+                    <div class="col-md-2"><div class="step-card"><div class="step-number" data-step="2">2</div><h6>Diseño</h6><div id="stepDetail2" class="step-detail"><strong>Entregable:</strong> Arquitectura de solución, wireframes, propuesta técnica y comercial.</div></div></div>
+                    <div class="col-md-2"><div class="step-card"><div class="step-number" data-step="3">3</div><h6>Desarrollo</h6><div id="stepDetail3" class="step-detail"><strong>Sprints semanales:</strong> Avances visibles cada 7 días, integración continua.</div></div></div>
+                    <div class="col-md-2"><div class="step-card"><div class="step-number" data-step="4">4</div><h6>Implementación</h6><div id="stepDetail4" class="step-detail"><strong>Capacitación:</strong> Sesiones con usuarios, despliegue controlado y soporte post-lanzamiento.</div></div></div>
+                    <div class="col-md-2"><div class="step-card"><div class="step-number" data-step="5">5</div><h6>Soporte</h6><div id="stepDetail5" class="step-detail"><strong>Mesa de ayuda 24/7:</strong> Mantenimiento preventivo y evolutivo.</div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CURSOS con carrusel Swiper -->
+        <section id="cursos">
+            <div class="container">
+                <h2 class="section-title">Cursos y certificaciones</h2>
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><div class="card-modern"><i class="ri-microchip-line fs-1" style="color:var(--primary)"></i><h5>IA para empresas</h5><p><i class="ri-calendar-line"></i> 12 Mayo 2025 | <i class="ri-group-line"></i> 20 participantes | <i class="ri-time-line"></i> 20h</p><p>Modalidad: Online en vivo</p><button class="btn btn-outline-custom btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal">Inscribirse</button></div></div>
+                        <div class="swiper-slide"><div class="card-modern"><i class="ri-cloud-line fs-1" style="color:var(--primary)"></i><h5>Cloud Computing Avanzado</h5><p><i class="ri-calendar-line"></i> 20 Mayo 2025 | 15 participantes | 30h</p><p>Workshop presencial CDMX</p><button class="btn btn-outline-custom btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal">Inscribirse</button></div></div>
+                        <div class="swiper-slide"><div class="card-modern"><i class="ri-shield-line fs-1" style="color:var(--primary)"></i><h5>Ciberseguridad PyMEs</h5><p><i class="ri-calendar-line"></i> 3 Junio 2025 | 25 cupos | 16h</p><p>Online + prácticas</p><button class="btn btn-outline-custom btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal">Inscribirse</button></div></div>
+                        <div class="swiper-slide"><div class="card-modern"><i class="ri-database-2-line fs-1" style="color:var(--primary)"></i><h5>Big Data & Analytics</h5><p>10 Julio 2025 | 12 participantes | 40h</p><p>Presencial Monterrey</p><button class="btn btn-outline-custom btn-sm">Próximamente</button></div></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAPA DE MÉXICO con Google Maps -->
+        <section id="ubicaciones">
+            <div class="container">
+                <h2 class="section-title">Presencia nacional</h2>
+                <p class="section-subtitle">Oficinas y centros de operación en México</p>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d239597.41642530076!2d-100.410667146331!3d25.669348144121212!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86629531b437e673%3A0x6b5c4d6e7b0f0e3d!2sMonterrey%2C%20Nuevo%20Le%C3%B3n!5e0!3m2!1ses!2smx!4v1650000000000!5m2!1ses!2smx" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <div class="row mt-4 text-center">
+                    <div class="col-3"><i class="ri-map-pin-line"></i> Monterrey</div><div class="col-3"><i class="ri-map-pin-line"></i> CDMX</div><div class="col-3"><i class="ri-map-pin-line"></i> San Luis Potosí</div><div class="col-3"><i class="ri-map-pin-line"></i> Baja California</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CENTRO DE DESCARGAS (simulando app con marcas) -->
+        <section id="descargas" style="background-color: var(--gray-light);">
+            <div class="container">
+                <h2 class="section-title">Centro de Descargas</h2>
+                <p class="section-subtitle">Software, controladores y herramientas técnicas de las mejores marcas</p>
+                <div class="row g-4">
+                    <div class="col-md-4"><div class="card-modern text-center"><i class="ri-windows-line fs-1" style="color:var(--primary)"></i><h5>Microsoft Software</h5><p>Windows, Office, SQL Server</p><button class="btn btn-primary-custom btn-sm" onclick="alert('Portal de descargas: versiones legales con licencia. Visita inelco.mx/descargas')">Explorar</button></div></div>
+                    <div class="col-md-4"><div class="card-modern text-center"><i class="ri-database-2-line fs-1" style="color:var(--primary)"></i><h5>Aspel & SoftRestaurant</h5><p>COI, SAE, facturación, restaurantes</p><button class="btn btn-primary-custom btn-sm" onclick="alert('Demostración: descarga de instaladores actualizados')">Descargar</button></div></div>
+                    <div class="col-md-4"><div class="card-modern text-center"><i class="ri-shield-check-line fs-1" style="color:var(--primary)"></i><h5>Antivirus & Seguridad</h5><p>Kaspersky, ESET, Bitdefender</p><button class="btn btn-primary-custom btn-sm" onclick="alert('Pruebas gratuitas y versiones empresariales')">Solicitar</button></div></div>
+                </div>
+                <div class="text-center mt-4"><a href="#" class="btn btn-outline-custom">Ver más de 200+ recursos disponibles <i class="ri-arrow-right-line"></i></a></div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIOS -->
+        <section><div class="container"><h2 class="section-title">Testimonios</h2><div class="row"><div class="col-md-4"><div class="testimonial-card"><i class="ri-double-quotes-L"></i><p>“Excelente soporte y soluciones a medida.”</p><h6>— Laura Méndez</h6></div></div><div class="col-md-4"><div class="testimonial-card"><p>“La migración a la nube fue impecable.”</p><h6>— Carlos R.</h6></div></div><div class="col-md-4"><div class="testimonial-card"><p>“Redujimos costos 40% con su software.”</p><h6>— Ana Sofía</h6></div></div></div></div></section>
+
+        <!-- CTA -->
+        <section id="contacto" class="container"><div class="cta-section text-center"><h3 class="text-white">¿Listo para impulsar tu empresa?</h3><button class="btn btn-primary-custom bg-white text-primary" data-bs-toggle="modal" data-bs-target="#asesoriaModal">Asesoría gratuita</button></div></section>
+
+        <footer><div class="container"><div class="row"><div class="col-md-4"><img src="https://inelco.mx/images/logo-positivo.png" style="height:45px; filter:brightness(0) invert(1)"><p class="mt-2">Plataforma integral tecnológica</p></div><div class="col-md-4"><h5>Legal</h5><a href="#">Aviso de privacidad</a></div><div class="col-md-4"><h5>Contacto</h5><p>contacto@inelco.mx</p></div></div><hr><div class="text-center">© 2025 Inelco IT Solutions</div></div></footer>
+    </main>
+
+    <!-- MODALES -->
+    <div class="modal fade" id="eventModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>Registro a curso</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="text" class="form-control mb-2" placeholder="Nombre"><input type="email" class="form-control mb-2" placeholder="Email"><button class="btn btn-primary-custom w-100" onclick="alert('Registro simulado exitoso')">Inscribirme</button></div></div></div></div>
+    <div class="modal fade" id="asesoriaModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>Asesoría gratuita</h5></div><div class="modal-body"><input type="text" id="asesorNombre" class="form-control mb-2" placeholder="Nombre"><input type="email" class="form-control mb-2" placeholder="Email"><button class="btn btn-primary-custom w-100" onclick="alert('Solicitud enviada')">Enviar</button></div></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        AOS.init({ duration: 700, once: true });
+        // Carrusel cursos
+        new Swiper('.mySwiper', { slidesPerView: 1, spaceBetween: 20, pagination: { el: '.swiper-pagination', clickable: true }, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } } });
+
+        // METODOLOGÍA: click en números muestra detalles
+        document.querySelectorAll('.step-number').forEach(btn => {
+            btn.addEventListener('click', () => {
+                let step = btn.getAttribute('data-step');
+                let detailDiv = document.getElementById(`stepDetail${step}`);
+                if (detailDiv.style.display === 'block') detailDiv.style.display = 'none';
+                else detailDiv.style.display = 'block';
+            });
+        });
+
+        // BOTONES FUNCIONALES (chips) muestran resultados dinámicos según tema
+        const resultsMap = {
+            software: { title: "🖥️ Marcas y socios tecnológicos", items: ["Microsoft", "Aspel", "SoftRestaurant", "Oracle", "Linux (Red Hat)", "Antivirus Kaspersky", "SAP Business One"] },
+            infraestructura: { title: "🏗️ Equipos y marcas de infraestructura", items: ["Servidores Dell EMC", "Cisco (switches/routers)", "Cableado estructurado Panduit", "Cámaras Hikvision", "UPS Eaton", "Firewalls Fortinet"] },
+            cursos: { title: "📚 Próximos eventos y talleres recientes", items: ["IA para empresas - 12 Mayo", "Cloud Computing - 20 Mayo", "Ciberseguridad - 3 Junio", "Big Data - Julio", "Taller de Redes - Agosto"] },
+            cloud: { title: "☁️ Proveedores Cloud", items: ["AWS (Amazon)", "Microsoft Azure", "Google Cloud Platform", "IBM Cloud", "Oracle Cloud"] },
+            soporte: { title: "🛠️ Servicios de soporte", items: ["Mesa de ayuda 24/7", "Mantenimiento preventivo mensual", "Respaldo en sitio", "Monitoreo proactivo"] },
+            ciberseguridad: { title: "🔒 Soluciones de seguridad", items: ["Firewalls Next-Gen", "Antivirus empresarial", "Auditoría de vulnerabilidades", "Cumplimiento LFPDPPP", "Backup cifrado"] }
+        };
+        const dynamicDiv = document.getElementById('dynamicResults');
+        document.querySelectorAll('.chip-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.getAttribute('data-type');
+                const data = resultsMap[type];
+                if (data) {
+                    let html = `<h5 class="mb-3">${data.title}</h5><div class="row">`;
+                    data.items.forEach(item => { html += `<div class="col-md-4 mb-2"><div class="result-item"><i class="ri-checkbox-circle-line text-primary me-2"></i>${item}</div></div>`; });
+                    html += `</div><p class="mt-3 text-muted small">* Demostración interactiva - Para más información contacta a un asesor.</p>`;
+                    dynamicDiv.innerHTML = html;
+                    dynamicDiv.style.display = 'block';
+                } else {
+                    dynamicDiv.innerHTML = `<div class="alert alert-info">Más información pronto sobre esta categoría.</div>`;
+                    dynamicDiv.style.display = 'block';
+                }
+                // Scroll suave hacia resultados
+                dynamicDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+        // Efecto de búsqueda demo (solo visual)
+        const searchInput = document.getElementById('demoSearch');
+        searchInput.addEventListener('input', (e) => {
+            if(e.target.value.length > 2) {
+                dynamicDiv.innerHTML = `<div class="result-item"><i class="ri-search-line"></i> Mostrando resultados para: <strong>${e.target.value}</strong>... (demo interactivo) <br><small>Prueba los botones de categoría para ver ejemplos reales.</small></div>`;
+                dynamicDiv.style.display = 'block';
+            } else if(e.target.value === "") dynamicDiv.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
